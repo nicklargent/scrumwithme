@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en" ng-app="ScrumWithMe" ng-controller="ServerCtrl">
+    <head>
+        <title>Scrum With Me</title>
+
+        <style>
+
+            .card-container {
+                float: left;
+                margin: 10px;
+                zborder: 1px solid red;
+            }
+
+            .card-name {
+                padding: 4px;
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .card-name img {
+                margin: 1px;
+                opacity: .4;
+            }
+
+            .card-name img:hover {
+                opacity: 1;
+            }
+
+            .flip {
+                -webkit-perspective: 800;
+                width: 160px;
+                height: 230px;
+                position: relative;
+            }
+            .flip .card2.flipped {
+                -webkit-transform: rotatey(-180deg);
+            }
+            .flip .card2.unknown {
+                opacity: 0.2;
+            }
+            .flip .card2 {
+                width: 100%;
+                height: 100%;
+                -webkit-transform-style: preserve-3d;
+                -webkit-transition: 0.5s;
+            }
+            .flip .card2 .face {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                -webkit-backface-visibility: hidden;
+                z-index: 2;
+                font-family: Georgia;
+                font-size: 3em;
+                font-weight: bold;
+                text-align: center;
+                line-height: 230px;
+            }
+            .flip .card2 .front {
+                position: absolute;
+                z-index: 1;
+                background-image: url('/cardback-gear.jpg');
+                background-size: 100% 100%;
+                border: 1px solid white;
+            }
+            .flip .card2 .back {
+                -webkit-transform: rotatey(-180deg);
+                border: 1px solid darkgray;
+                border-radius: 3px;
+            }
+
+
+            .qrcode {
+                position: fixed;
+                right: 0px;
+                bottom: 0px;
+                text-align: center;
+            }
+
+            .tools {
+                position: fixed;
+                left: 0px;
+                bottom: 0px;
+            }
+
+            .sessionid {
+                font-family: sans-serif;
+                font-weight: bold;
+                font-size: 1.5em;
+                text-transform:uppercase;
+            }
+
+        </style>
+
+    </head>
+    <body>
+
+        <h2 style="text-align: center;">scrum.with.me</h2>
+
+        <div ng-show="model.users.length == 0">
+            <h1 style="text-align: center">Empty Session</h1>
+        </div>
+
+        <div style="clear: both; text-align: center" ng-show="model.users.length > 0">
+            <button ng-click='reset()' style="width: 200px; height: 40px; margin: 20px;">Reset</button>
+        </div>
+
+        <div style="width: {{model.users.length * 180}}px; margin: auto">
+
+            <div ng-repeat="user in model.users" class="card-container flip">
+                <div class="card-name">{{user.name}} <a href="#" ng-click="kick(user)"><img src="close.gif" border="0" /></a></div>
+                <div class="card2" ng-class="{'flipped': model.allIn, 'unknown': user.vote < 0}">
+                    <div class="face front">
+                    </div>
+                    <div class="face back">
+                        <span ng-show="user.vote >= 0">{{user.vote}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tools">
+            <a href="#" ng-click="newSession()">New Session</a>
+        </div>
+
+        <div class="qrcode">
+            <a style="text-decoration: none;" href="{{model.joinUrl}}" target="_blank"><span class="sessionid">{{model.sessionId}}</span></a><br/>
+            <img src="{{model.qrcodeUrl}}">
+            <br/>
+        </div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular/angular-cookies.js"></script>
+        <script src="js/ScrumWithMe.js"></script>
+        <script src="js/controllers/ServerCtrl.js"></script>
+        <script src="js/services/socket.js"></script>
+    </body>
+</html>

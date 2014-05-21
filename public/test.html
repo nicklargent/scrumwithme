@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" ng-app="ScrumWithMe" ng-controller="TestCtrl">
+    <head>
+        <title>Test page</title>
+    </head>
+    <body>
+
+        Your name:
+        <input type="text" ng-model="username">
+        <button ng-click='sayHello()'>greet</button>
+        <hr>
+        {{greeting}}
+
+
+        <script src="/socket.io/socket.io.js"></script>
+
+
+        <script src="lib/angular/angular.js"></script>
+        <script src="js/ScrumWithMe.js"></script>
+        <script src="js/controllers/TestCtrl.js"></script>
+    </body>
+</html>

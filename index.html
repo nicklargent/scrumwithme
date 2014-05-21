@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" ng-app="ScrumWithMe" ng-controller="IndexCtrl">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>scrum.with.me</title>
+        <style>
+            body {
+                text-align: center;
+            }
+
+            button {
+                margin: 20px;
+                width: 200px;
+                padding: 4px;
+                font-size: 1.5em;
+            }
+
+            * {
+                -webkit-appearance: none;
+                -webkit-border-radius: 0;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <h1>scrum.with.me</h1>
+
+
+        <button ng-click="host()">Host Session<span style="font-size: .5em;"><br/>(Chrome Only)</span></button><br/>
+
+        <br/><br/>
+
+        <input ng-model="sessionid" placeholder="Session ID"><br/>
+        <button ng-disabled="sessionid.length != 6" ng-click="join()">Join</button>
+
+
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular/angular-cookies.js"></script>
+        <script src="js/ScrumWithMe.js"></script>
+        <script src="js/services/socket.js"></script>
+        <script src="js/controllers/IndexCtrl.js"></script>
+    </body>
+</html>

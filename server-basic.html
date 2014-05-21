@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" ng-app="ScrumWithMe" ng-controller="ServerCtrl">
+    <head>
+        <title>Scrum With Me</title>
+
+        <style>
+
+            .card-container {
+                float: left;
+                margin: 10px;
+                zborder: 1px solid red;
+            }
+
+            .card-name {
+                padding: 4px;
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .card {
+                margin: auto;
+                width: 60px;
+                height: 90px;
+                line-height: 90px;
+                padding: 10px;
+                zborder: 1px solid blue;
+                text-align: center;
+                font-weight: bold;
+                font-family: Georgia;
+                font-size: 2em;
+            }
+
+            .card.unknown {
+                border: 1px solid white;
+                background-image: url('/cardback-blue.png');
+                background-size: 100% 100%;
+                opacity: .2;
+            }
+
+            .card.hidden {
+                border: 1px solid white;
+                background-image: url('/cardback-blue.png');
+                background-size: 100% 100%;
+            }
+
+            .card.visible {
+                border: 1px solid darkgray;
+                border-radius: 3px;
+            }
+
+        </style>
+
+    </head>
+    <body>
+
+        <h1>Scrum With Me Server</h1>
+        <h3>Session: {{model.sessionName}}</h3>
+
+        <button ng-click='reset()'>Reset</button>
+
+        <h3>Users</h3>
+
+        <div ng-repeat="user in model.users" class="card-container">
+            <div class="card-name">{{user.name}}</div>
+            <div class="card" ng-class="getCardClass(user)">
+                <span ng-show="getCardClass(user) == 'visible'">{{user.vote}}</span>
+            </div>
+        </div>
+
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="lib/angular/angular.js"></script>
+        <script src="js/ScrumWithMe.js"></script>
+        <script src="js/controllers/ServerCtrl.js"></script>
+        <script src="js/services/socket.js"></script>
+    </body>
+</html>
