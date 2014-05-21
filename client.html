@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" ng-app="ScrumWithMe" ng-controller="ClientCtrl">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>scrum.with.me</title>
+        <style>
+            body {
+                text-align: center;
+            }
+
+            * {
+                -webkit-appearance: none;
+                -webkit-border-radius: 0;
+            }
+
+            .point-button {
+                width: 80px;
+                height: 90px;
+                margin: 8px;
+                padding: 0;
+                font-size: 2em;
+            }
+
+            .selected {
+                border: 3px solid red;
+            }
+        </style>
+    </head>
+    <body>
+
+        <h3>scrum.with.me</h3>
+
+        <div ng-show="!model.isLoggedIn()">
+            <input type="text" ng-model="model.newUsername" placeholder="Name" autofocus>
+            <br/>
+            <button ng-disabled="model.newUsername.length < 3" ng-click='join()' style="margin: 20px; padding: 10px;">Join</button>
+        </div>
+
+        <div ng-show="model.isLoggedIn()">
+
+            <span ng-repeat="value in [1,2,3,5,8,13,20,40,100]">
+                <button class="point-button" ng-click="vote(value)" ng-class="{selected: model.vote == value}">{{value}}</button>
+            </span>
+
+            <br/> <br/>
+
+            <button ng-click='reset()' style="margin: 20px; position: fixed: bottom: 0, left: 0;">Reset All</button>
+
+            <button ng-click='logout()' style="margin: 20px; position: fixed: bottom: 0, right: 0;">Logout</button>
+
+        </div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular/angular-cookies.js"></script>
+        <script src="js/ScrumWithMe.js"></script>
+        <script src="js/services/socket.js"></script>
+        <script src="js/controllers/ClientCtrl.js"></script>
+    </body>
+</html>
