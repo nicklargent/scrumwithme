@@ -32,9 +32,10 @@ angular.module('ScrumWithMe').controller('ClientCtrl', function ($scope, $locati
         model.loggedIn = false;
     });
 
-    socket.on('error', function(reason) {
+    socket.on('failure', function(reason) {
         model.connected = false;
         model.loggedIn = false;
+        console.log(reason);
         alert(reason);
     });
 
