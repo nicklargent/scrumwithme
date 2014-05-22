@@ -6,9 +6,10 @@
 angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $location, $timeout, $cookieStore, socket) {
 
     var generateSessionId = function(){
+        var dict = "abcdefghjklmnpqrstuvwxyz0123456789";
         var guid = 'xxxxxx'.replace(/[xy]/g, function(c) {
-            var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-            return v.toString(16);
+            var r = Math.random()*dict.length;
+            return dict.charAt(r);
         });
         $cookieStore.put('sessionid', guid);
         return guid;
@@ -24,6 +25,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
         sessionId: sessionId,
         joinUrl: buildJoinUrl(sessionId),
         qrcodeUrl: 'http://chart.apis.google.com/chart?cht=qr&chs=150x150&chl=' + encodeURIComponent(buildJoinUrl(sessionId)),
+        cardBackImage: '/cardback-gear.jpg',
         users: [],
         allIn: false
     };
