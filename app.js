@@ -52,7 +52,7 @@ io.sockets.on('connection', function (socket) {
 
         if (!sessions[data.sessionid]) {
             console.log("Invalid sessionId")
-            socket.emit('error', 'Invalid Session')
+            socket.emit('failure', 'Invalid Session')
             return;
         }
 
@@ -123,7 +123,7 @@ io.sockets.on('connection', function (socket) {
         console.log("kick: " + username);
 
         if (sessions[socket.sessionid] && sessions[socket.sessionid].users[username]) {
-            sessions[socket.sessionid].users[username].socket.emit('error', 'You have been kicked');
+            sessions[socket.sessionid].users[username].socket.emit('failure', 'You have been kicked');
             delete sessions[socket.sessionid].users[username];
             sendDumpToHost(socket.sessionid);
         }
