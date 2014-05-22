@@ -16,8 +16,9 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
     };
 
     var buildJoinUrl = function(uuid) {
-        console.log(window.location);
-        return "/join?session=" + uuid;
+        var url = window.location.protocol + "//" + window.location.host;
+        url += "/join?session=" + uuid;
+        return url;
     }
 
     var sessionId = $cookieStore.get('sessionid') || generateSessionId();
