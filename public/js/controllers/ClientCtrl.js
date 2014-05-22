@@ -8,6 +8,7 @@ angular.module('ScrumWithMe').controller('ClientCtrl', function ($scope, $locati
         sessionName: $location.search().session,
         newUsername: '',
         connected: false,
+        loggedIn: false,
         username: $cookieStore.get('username') || '',
         isLoggedIn: function() {
             return this.username != null && this.username.length > 0;
@@ -24,6 +25,21 @@ angular.module('ScrumWithMe').controller('ClientCtrl', function ($scope, $locati
     socket.on('connect', function(){
         model.connected = true;
         doJoin();
+    });
+
+    socket.on('disconnect', function() {
+        model.connected = false;
+        model.loggedIn = false;
+    });
+
+    socket.on('error', function(reason) {
+        model.connected = false;
+        model.loggedIn = false;
+        alert(reason);
+    });
+
+    socket.on('loggedIn', function() {
+        model.loggedIn = true;
     });
 
     socket.on('reset', function(mode) {
@@ -43,6 +59,13 @@ angular.module('ScrumWithMe').controller('ClientCtrl', function ($scope, $locati
         model.username = model.newUsername;
         $cookieStore.put('username', model.newUsername);
         doJoin();
+    }
+
+    $scope.connectedIcon = function() {
+        if (model.loggedIn)
+            return "LED_on.png";
+        else
+            return "LED_off.png";
     }
 
     var doJoin = function() {
