@@ -62,7 +62,7 @@ io.sockets.on('connection', function (socket) {
             console.log("creating new user: " + data.username);
             session.users[data.username] = {
                 username: data.username,
-                vote: -1,
+                vote: null,
                 socket: null
             };
         }
@@ -100,7 +100,7 @@ io.sockets.on('connection', function (socket) {
 
         if (sessions[socket.sessionid]) {
             for (var key in sessions[socket.sessionid].users) {
-                sessions[socket.sessionid].users[key].vote = -1;
+                sessions[socket.sessionid].users[key].vote = null;
             }
 
             io.sockets.in(socket.sessionid).emit('reset');

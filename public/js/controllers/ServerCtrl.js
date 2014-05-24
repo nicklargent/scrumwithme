@@ -65,10 +65,22 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
     });
 
     socket.on('dump', function(data) {
-        model.users = data.users;
-        var allIn = data.users.reduce(function(total, user) { return total + (user.vote >= 0 ? 1 : 0)}, 0) == data.users.length;
+        //model.users = data.users;
+        var allIn = !data.users.some(function(u) { return u.vote == null });
+        console.log(data.users);
+        console.log(allIn);
 
-        if (model.allIn != allIn) {
+        if (model.allIn == allIn) {
+            model.users = data.users;
+        }
+        else if (model.allIn) {
+            model.allIn = allIn;
+            $timeout(function() {
+                model.users = data.users;
+            }, 550);
+        }
+        else if (!model.allIn) {
+            model.users = data.users;
             $timeout(function() {
                 model.allIn = allIn;
             }, 50);
