@@ -18,6 +18,8 @@ angular.module('ScrumWithMe').controller('ClientCtrl', function ($scope, $locati
     $scope.model = model;
 
     $scope.vote = function(value) {
+        if (value == model.vote)
+            value = null;
         model.vote = value;
         socket.emit('vote', value);
     }
