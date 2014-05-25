@@ -2,10 +2,20 @@
  * Created by Nick Largent on 5/19/14.
  */
 
-angular.module('ScrumWithMe').controller('ClientCtrl', function ($scope, $location, $cookieStore, socket) {
+angular.module('ScrumWithMe').controller('ClientCtrl', function ($scope, $location, $cookieStore, socket, tools) {
+
+    var getUser = function() {
+        var uid = $cookieStore.get('uid');
+        if (uid)
+            return uid;
+        uid = tools.generateUserId();
+        $cookieStore.put('uid', uid);
+        return uid;
+    }
 
     var model = {
-        sessionName: $location.search().session,
+        uid: getUser(),
+        sid: $location.search().session,
         newUsername: '',
         connected: false,
         loggedIn: false,
@@ -73,7 +83,7 @@ angular.module('ScrumWithMe').controller('ClientCtrl', function ($scope, $locati
 
     var doJoin = function() {
         if (model.connected && model.username) {
-            socket.emit('bindUser', {sessionid: model.sessionName, username: model.username});
+            socket.emit('bindUser', {sid: model.sid, uid: model.uid, username: model.username});
         }
     }
 

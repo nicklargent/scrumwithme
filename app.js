@@ -22,45 +22,46 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('bindHost', function (data) {
         console.log(" ================================================");
-        console.log("bindHost: " + data.sessionid);
-        socket.sessionid = data.sessionid;
-        socket.username = "HOST";
-        socket.join(data.sessionid);
+        console.log("bindHost: " + data.sid);
+        socket.sid = data.sid;
+        socket.uid = "HOST";
+        socket.join(data.sid);
 
-        if (!(data.sessionid in sessions)) {
-            console.log("creating new session: " + data.sessionid);
-            sessions[data.sessionid] = {
-                id: data.sessionid,
+        if (!(data.sid in sessions)) {
+            console.log("creating new session: " + data.sid);
+            sessions[data.sid] = {
+                sid: data.sid,
                 users: {},
                 hostSocket: null
             };
         }
         else {
-            console.log("resuming old session: " + data.sessionid);
+            console.log("resuming old session: " + data.sid);
         }
 
-        sessions[data.sessionid].hostSocket = socket;
-        sendDumpToHost(data.sessionid);
+        sessions[data.sid].hostSocket = socket;
+        sendDumpToHost(data.sid);
     });
 
     socket.on('bindUser', function(data) {
         console.log(" ================================================");
-        console.log("bindUser: " + data.username + " to session: " + data.sessionid);
-        socket.sessionid = data.sessionid;
-        socket.username = data.username;
-        socket.join(data.sessionid);
+        console.log("bindUser: " + data.username + " to session: " + data.sid);
+        socket.sid = data.sid;
+        socket.uid = data.uid;
+        socket.join(data.sid);
 
-        if (!sessions[data.sessionid]) {
+        if (!sessions[data.sid]) {
             console.log("Invalid sessionId")
             socket.emit('failure', 'Invalid Session')
             return;
         }
 
-        var session = sessions[data.sessionid];
+        var session = sessions[data.sid];
 
-        if (!(data.username in session.users)) {
+        if (!(data.uid in session.users)) {
             console.log("creating new user: " + data.username);
-            session.users[data.username] = {
+            session.users[data.uid] = {
+                uid: data.uid,
                 username: data.username,
                 vote: null,
                 socket: null
@@ -70,82 +71,83 @@ io.sockets.on('connection', function (socket) {
             console.log("resuming old user: " + data.username);
         }
 
-        var u = session.users[data.username];
+        var u = session.users[data.uid];
         console.log(u);
         u.socket = socket;
 
         socket.emit('loggedIn');
-        sendDumpToHost(data.sessionid);
+        sendDumpToHost(data.sid);
     });
 
     socket.on('disconnect', function() {
         console.log(" ================================================");
-        console.log("disconnect: " + socket.username);
+        console.log("disconnect: " + socket.uid);
 
-        if (sessions[socket.sessionid]
-            && sessions[socket.sessionid].users[socket.username]
-            && sessions[socket.sessionid].users[socket.username].socket == socket) {
-            delete sessions[socket.sessionid].users[socket.username];
-            if (socket == sessions[socket.sessionid].hostSocket) {
-                sessions[socket.sessionid].hostSocket = null;
+        if (sessions[socket.sid]
+            && sessions[socket.sid].users[socket.uid]
+            && sessions[socket.sid].users[socket.uid].socket == socket) {
+            delete sessions[socket.sid].users[socket.uid];
+            if (socket == sessions[socket.sid].hostSocket) {
+                sessions[socket.sid].hostSocket = null;
             }
         }
 
-        sendDumpToHost(socket.sessionid);
+        sendDumpToHost(socket.sid);
     });
 
     socket.on("reset", function() {
         console.log(" ================================================");
-        console.log("reset: " + socket.sessionid);
+        console.log("reset: " + socket.sid);
 
-        if (sessions[socket.sessionid]) {
-            for (var key in sessions[socket.sessionid].users) {
-                sessions[socket.sessionid].users[key].vote = null;
+        if (sessions[socket.sid]) {
+            for (var uid in sessions[socket.sid].users) {
+                sessions[socket.sid].users[uid].vote = null;
             }
 
-            io.sockets.in(socket.sessionid).emit('reset');
-            sendDumpToHost(socket.sessionid);
+            io.sockets.in(socket.sid).emit('reset');
+            sendDumpToHost(socket.sid);
         }
     });
 
     socket.on("vote", function(value) {
         console.log(" ================================================");
-        console.log("vote: " + socket.username);
+        console.log("vote: " + socket.uid);
 
-        if (sessions[socket.sessionid] && sessions[socket.sessionid].users[socket.username]) {
-            sessions[socket.sessionid].users[socket.username].vote = value;
-            sendDumpToHost(socket.sessionid);
+        if (sessions[socket.sid] && sessions[socket.sid].users[socket.uid]) {
+            sessions[socket.sid].users[socket.uid].vote = value;
+            sendDumpToHost(socket.sid);
         }
     });
 
-    socket.on("kick", function(username) {
+    socket.on("kick", function(uid) {
         console.log(" ================================================");
-        console.log("kick: " + username);
+        console.log("kick: " + uid);
 
-        if (sessions[socket.sessionid] && sessions[socket.sessionid].users[username]) {
-            sessions[socket.sessionid].users[username].socket.emit('failure', 'You have been kicked');
-            delete sessions[socket.sessionid].users[username];
-            sendDumpToHost(socket.sessionid);
+        if (sessions[socket.sid] && sessions[socket.sid].users[uid]) {
+            sessions[socket.sid].users[uid].socket.emit('failure', 'You have been kicked');
+            delete sessions[socket.sid].users[uid];
+            sendDumpToHost(socket.sid);
         }
     });
 
-    var sendDumpToHost = function(sessionid) {
-        var s = sessions[sessionid];
+    var sendDumpToHost = function(sid) {
+        var s = sessions[sid];
         if (s && s.hostSocket != null) {
             var dump = {
-                id: s.id,
+                sid: s.sid,
                 users: []
             }
 
-            for (var key in s.users) {
+            for (var uid in s.users) {
                 dump.users.push({
-                    name: s.users[key].username,
-                    vote: s.users[key].vote
+                    uid: uid,
+                    username: s.users[uid].username,
+                    vote: s.users[uid].vote
                 });
             }
 
             dump.users.sort(function(a, b) {
-                return a.name > b.name;
+                return a.username > b.username;
             });
 
             console.log(dump);
