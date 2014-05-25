@@ -94,11 +94,10 @@
                 <button class="point-button" ng-click="vote(value)" ng-class="{selected: model.vote == value}">{{value}}</button>
             </span>
 
-            <br/> <br/>
-
-            <button ng-click='reset()' style="margin: 20px; position: fixed: bottom: 0, left: 0;">Reset All</button>
-
-            <button ng-click='leave()' style="margin: 20px; position: fixed: bottom: 0, right: 0;">Leave</button>
+            <div style="background-color: lightgrey; position: fixed; bottom: 0; height: 50px; width: 100%;">
+                <button ng-click='reset()' style="margin: 10px; height: 30px; float: left;">Reset All</button>
+                <button ng-click='leave()' style="margin: 10px; height: 30px; float: right;">Leave</button>
+            </div>
 
         </div>
 

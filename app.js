@@ -135,7 +135,8 @@ io.sockets.on('connection', function (socket) {
         console.log("kick: " + uid);
 
         if (sessions[socket.sid] && sessions[socket.sid].users[uid]) {
-            sessions[socket.sid].users[uid].socket.emit('failure', 'You have been kicked');
+            if (sessions[socket.sid].users[uid].socket)
+                sessions[socket.sid].users[uid].socket.emit('failure', 'You have been kicked');
             delete sessions[socket.sid].users[uid];
             sendDumpToHost(socket.sid);
         }
