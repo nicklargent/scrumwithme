@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" ng-app="ScrumWithMe" ng-controller="ServerCtrl">
     <head>
-        <title>Scrum With Me</title>
+        <title ng-bind="appName"></title>
 
         <style>
 
@@ -109,7 +109,7 @@
     </head>
     <body class="ng-cloak">
 
-        <h2 style="text-align: center;">scrum.with.me</h2>
+        <h2 style="text-align: center;">{{appName}}</h2>
 
         <div ng-show="model.users.length == 0">
             <h1 style="text-align: center">Empty Session</h1>
