@@ -6,20 +6,20 @@
 angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $location, $timeout, $cookieStore, socket, tools) {
 
     $scope.newSession = function() {
-        sessionId = tools.generateSessionId();
-        window.location = tools.buildHostUrl(sessionId);
+        sid = tools.generateSessionId();
+        window.location = tools.buildHostUrl(sid);
     }
 
-    var sessionId =  $location.search().session;
+    var sid =  $location.search().session;
 
-    if (sessionId == null) {
+    if (sid == null) {
         $scope.newSession();
     }
 
     var model = {
-        sessionId: sessionId,
-        joinUrl: tools.buildJoinUrl(sessionId),
-        qrcodeUrl: 'http://chart.apis.google.com/chart?cht=qr&chs=150x150&chl=' + encodeURIComponent(tools.buildJoinUrl(sessionId)),
+        sid: sid,
+        joinUrl: tools.buildJoinUrl(sid),
+        qrcodeUrl: 'http://chart.apis.google.com/chart?cht=qr&chs=150x150&chl=' + encodeURIComponent(tools.buildJoinUrl(sid)),
         cardBackImage: '/cardback-gear.jpg',
         users: [],
         allIn: false
@@ -31,7 +31,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
     }
 
     $scope.kick = function(user) {
-        socket.emit("kick", user.name);
+        socket.emit("kick", user.uid);
     }
 
     /*  This is needed for the basic (non flipping) view
@@ -49,7 +49,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
     */
 
     socket.on('connect', function(){
-        socket.emit('bindHost', {sessionid: model.sessionId});
+        socket.emit('bindHost', {sid: model.sid});
     });
 
     socket.on('dump', function(data) {

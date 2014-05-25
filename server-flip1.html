@@ -117,7 +117,7 @@
         <div style="width: {{model.users.length * 180}}px; margin: auto">
 
             <div ng-repeat="user in model.users" class="card-container flip">
-                <div class="card-name">{{user.name}} <a href="#" ng-click="kick(user)"><img src="close.gif" border="0" /></a></div>
+                <div class="card-name">{{user.username}} <a href="#" ng-click="kick(user)"><img src="close.gif" border="0" /></a></div>
                 <div class="card2" ng-class="{'flipped': model.allIn, 'unknown': user.vote < 0}">
                     <div class="face front">
                     </div>
@@ -134,7 +134,7 @@
         </div>
 
         <div class="qrcode">
-            <a style="text-decoration: none;" href="{{model.joinUrl}}" target="_blank"><span class="sessionid">{{model.sessionId}}</span></a><br/>
+            <a style="text-decoration: none;" href="{{model.joinUrl}}" target="_blank"><span class="sessionid">{{model.sid}}</span></a><br/>
             <img src="{{model.qrcodeUrl}}">
             <br/>
         </div>

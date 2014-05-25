@@ -68,9 +68,9 @@
     <body class="ng-cloak">
 
         <div class="header">
-            <div style="float: left; text-transform: uppercase; width: 33%; text-align: left;"><img style="vertical-align: text-top;" src="{{connectedIcon()}}" />{{model.sessionName}}</div>
+            <div style="float: left; text-transform: uppercase; width: 33%; text-align: left;"><img style="vertical-align: text-top;" src="{{connectedIcon()}}" />{{model.sid}}</div>
             <div style="float: right; width: 33%; text-align: right;">{{model.username}}&nbsp;</div>
-            <div>scrum.with.me</div>
+            <div>scrum.withme</div>
         </div>
 
         <div ng-show="!model.isLoggedIn()" style="padding: 20px;">
@@ -99,5 +99,6 @@
         <script src="js/ScrumWithMe.js"></script>
         <script src="js/services/socket.js"></script>
         <script src="js/controllers/ClientCtrl.js"></script>
+        <script src="js/services/tools.js"></script>
     </body>
 </html>
