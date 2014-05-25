@@ -69,6 +69,7 @@ io.sockets.on('connection', function (socket) {
         }
         else {
             console.log("resuming old user: " + data.username);
+            session.users[data.uid].username = data.username;
         }
 
         var u = session.users[data.uid];

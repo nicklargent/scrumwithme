@@ -69,7 +69,7 @@
 
         <div class="header">
             <div style="float: left; text-transform: uppercase; width: 33%; text-align: left;"><img style="vertical-align: text-top;" src="{{connectedIcon()}}" />{{model.sid}}</div>
-            <div style="float: right; width: 33%; text-align: right;">{{model.username}}&nbsp;</div>
+            <div style="float: right; width: 33%; text-align: right;">{{model.username}}&nbsp;<img src="gear2.png" style="vertical-align: text-top; opacity: .6;" ng-click="showSettings()" /></div>
             <div>scrum.withme</div>
         </div>
 
@@ -77,6 +77,15 @@
             <input type="text" ng-model="model.newUsername" placeholder="Name">
             <br/>
             <button ng-disabled="model.newUsername.length < 3" ng-click='join()' style="margin: 20px; padding: 10px;">Join</button>
+        </div>
+
+        <div ng-show="model.showSettings" style="position: fixed; border: 1px solid black; background: white; width: 80%; left: 10%;">
+            <div style="padding: 20px;">
+                <input type="text" ng-model="model.newUsername">
+                <br/>
+                <button ng-click='saveSettings()' style="margin: 20px; padding: 10px;">Save</button>
+                <button ng-click='cancelSettings()' style="margin: 20px; padding: 10px;">Cancel</button>
+            </div>
         </div>
 
         <div ng-show="model.isLoggedIn()">
