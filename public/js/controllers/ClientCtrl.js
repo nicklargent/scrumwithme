@@ -16,6 +16,7 @@ angular.module('ScrumWithMe').controller('ClientCtrl', function ($scope, $locati
     var model = {
         uid: getUser(),
         sid: $location.search().session,
+        showSettings: false,
         newUsername: '',
         connected: false,
         loggedIn: false,
@@ -32,6 +33,20 @@ angular.module('ScrumWithMe').controller('ClientCtrl', function ($scope, $locati
             value = null;
         model.vote = value;
         socket.emit('vote', value);
+    }
+
+    $scope.showSettings = function() {
+        model.newUsername = model.username;
+        model.showSettings = true;
+    }
+
+    $scope.saveSettings = function() {
+        $scope.join();
+        model.showSettings = false;
+    }
+
+    $scope.cancelSettings = function() {
+        model.showSettings = false;
     }
 
     socket.on('connect', function(){
