@@ -84,11 +84,11 @@ io.sockets.on('connection', function (socket) {
         console.log(" ================================================");
         console.log("disconnect: " + socket.uid);
 
-        if (sessions[socket.sid]
-            && sessions[socket.sid].users[socket.uid]
-            && sessions[socket.sid].users[socket.uid].socket == socket) {
-            delete sessions[socket.sid].users[socket.uid];
-            if (socket == sessions[socket.sid].hostSocket) {
+        if (sessions[socket.sid]) {
+            if (sessions[socket.sid].users[socket.uid] && sessions[socket.sid].users[socket.uid].socket == socket) {
+                sessions[socket.sid].users[socket.uid].socket = null;
+            }
+            else if (socket == sessions[socket.sid].hostSocket) {
                 sessions[socket.sid].hostSocket = null;
             }
         }
@@ -120,6 +120,16 @@ io.sockets.on('connection', function (socket) {
         }
     });
 
+    socket.on("leave", function() {
+        console.log(" ================================================");
+        console.log("leave: " + socket.uid);
+
+        if (sessions[socket.sid] && sessions[socket.sid].users[socket.uid]) {
+            delete sessions[socket.sid].users[socket.uid];
+            sendDumpToHost(socket.sid);
+        }
+    });
+
     socket.on("kick", function(uid) {
         console.log(" ================================================");
         console.log("kick: " + uid);
@@ -143,7 +153,8 @@ io.sockets.on('connection', function (socket) {
                 dump.users.push({
                     uid: uid,
                     username: s.users[uid].username,
-                    vote: s.users[uid].vote
+                    vote: s.users[uid].vote,
+                    connected: s.users[uid].socket != null
                 });
             }
 
