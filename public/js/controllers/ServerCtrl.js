@@ -52,21 +52,31 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
         socket.emit('bindHost', {sid: model.sid});
     });
 
+
+    var timer = null;
+
     socket.on('dump', function(data) {
         var allIn = !data.users.some(function(u) { return u.vote == null });
+
+        if (timer != null) {
+            $timeout.cancel(timer);
+            timer = null;
+        }
 
         if (model.allIn == allIn) {
             model.users = data.users;
         }
         else if (model.allIn) {
             model.allIn = allIn;
-            $timeout(function() {
+            timer = $timeout(function() {
+                timer = null;
                 model.users = data.users;
             }, 550);
         }
         else if (!model.allIn) {
             model.users = data.users;
-            $timeout(function() {
+            timer = $timeout(function() {
+                timer = null;
                 model.allIn = allIn;
             }, 50);
         }
