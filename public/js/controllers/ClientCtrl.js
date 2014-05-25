@@ -78,9 +78,9 @@ angular.module('ScrumWithMe').controller('ClientCtrl', function ($scope, $locati
         socket.emit("reset");
     }
 
-    $scope.logout = function() {
-        $cookieStore.put('username', null);
-        window.location.reload();
+    $scope.leave = function() {
+        socket.emit("leave");
+        window.location = "/";
     }
 
     $scope.join = function() {
