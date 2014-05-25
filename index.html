@@ -2,7 +2,7 @@
 <html lang="en" ng-app="ScrumWithMe" ng-controller="IndexCtrl">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>scrum.with.me</title>
+        <title ng-bind="appName"></title>
         <style>
             body {
                 text-align: center;
@@ -24,7 +24,7 @@
     </head>
     <body>
 
-        <h1>scrum.with.me</h1>
+        <h1 ng-bind="appName"></h1>
 
 
         <button ng-click="host()">Host Session<span style="font-size: .5em;"><br/>(Chrome Only)</span></button><br/>
