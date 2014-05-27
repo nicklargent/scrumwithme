@@ -5,6 +5,10 @@
 
         <style>
 
+            body {
+                margin: 0;
+            }
+
             .card-container {
                 float: left;
                 margin: 10px;
@@ -82,16 +86,27 @@
 
 
             .qrcode {
-                position: fixed;
-                right: 0px;
-                bottom: 0px;
+                zposition: fixed;
+                zright: 0px;
+                zbottom: 0px;
                 text-align: center;
+                float: right;
+                margin: 5px;
+            }
+
+            .qrcode a {
+                color: #222222;
             }
 
             .tools {
                 position: fixed;
                 left: 0px;
                 bottom: 0px;
+                margin: 10px;
+            }
+
+            .tools a {
+                color: #222222;
             }
 
             .sessionid {
@@ -99,6 +114,27 @@
                 font-weight: bold;
                 font-size: 1.5em;
                 text-transform:uppercase;
+            }
+
+            .header {
+                border: 1px solid #222222;
+                background-color: #222222;
+                color: lightgray;
+                font-family: sans-serif;
+                font-size: .8em;
+                margin-bottom: 10px;
+            }
+
+            .footer {
+                position: fixed;
+                bottom: 0px;
+                width: 100%;
+                zheight: 200px;
+
+                background-color: lightgray;
+                font-family: sans-serif;
+                font-size: .8em;
+                margin-top: 10px;
             }
 
             .ng-cloak {
@@ -109,14 +145,12 @@
     </head>
     <body class="ng-cloak">
 
-        <h2 style="text-align: center;">{{appName}}</h2>
+        <div class="header">
+            <h2 style="text-align: center;">{{appName}}</h2>
+        </div>
 
         <div ng-show="model.users.length == 0">
             <h1 style="text-align: center">Empty Session</h1>
-        </div>
-
-        <div style="clear: both; text-align: center" ng-show="model.users.length > 0">
-            <button ng-click='reset()' style="width: 200px; height: 40px; margin: 20px;">Reset</button>
         </div>
 
         <div style="width: {{model.users.length * 180}}px; margin: auto">
@@ -134,14 +168,21 @@
 
         </div>
 
-        <div class="tools">
-            <a href="#" ng-click="newSession()">New Session</a>
-        </div>
+        <div class="footer">
 
-        <div class="qrcode">
-            <a style="text-decoration: none;" href="{{model.joinUrl}}" target="_blank"><span class="sessionid">{{model.sid}}</span></a><br/>
-            <img ng-src="{{model.qrcodeUrl}}">
-            <br/>
+            <div class="tools">
+                <a href="#" ng-click="newSession()">New Session</a>
+            </div>
+
+            <div class="qrcode">
+                <a style="text-decoration: none;" href="{{model.joinUrl}}" target="_blank"><span class="sessionid">{{model.sid}}</span></a><br/>
+                <img ng-src="{{model.qrcodeUrl}}">
+            </div>
+
+            <div style="text-align: center; width: 400px; margin: auto;" ng-show="model.users.length > 0">
+                <button ng-click='reset()' style="width: 200px; height: 60px; margin: 20px; zfont-weight: bold; font-size: 1.5em;">Reset</button>
+            </div>
+
         </div>
 
         <script src="/socket.io/socket.io.js"></script>
