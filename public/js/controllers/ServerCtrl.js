@@ -19,7 +19,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
     var model = {
         sid: sid,
         joinUrl: tools.buildJoinUrl(sid),
-        qrcodeUrl: 'http://chart.apis.google.com/chart?cht=qr&chs=150x150&chl=' + encodeURIComponent(tools.buildJoinUrl(sid)),
+        qrcodeUrl: 'http://chart.apis.google.com/chart?cht=qr&chs=100x100&chld=L|0&chl=' + encodeURIComponent(tools.buildJoinUrl(sid)),
         cardBackImage: '/cardback-gear.jpg',
         users: [],
         allIn: false
@@ -62,13 +62,13 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
             var user = data.users[i];
             var existing = tmpUsers[user.uid];
             if (existing == null) {
-                console.log("Adding User");
-                console.log(user);
+                //console.log("Adding User");
+                //console.log(user);
                 model.users.push(user);
             }
             else {
-                console.log("Updating User");
-                console.log(user);
+                //console.log("Updating User");
+                //console.log(user);
                 tmpUsers[user.uid].username = user.username;
                 tmpUsers[user.uid].vote = user.vote;
                 tmpUsers[user.uid].connected = user.connected;
@@ -78,8 +78,8 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
 
         // delete missing users
         for (var uid in tmpUsers) {
-            console.log("Removing User");
-            console.log(tmpUsers[uid]);
+            //console.log("Removing User");
+            //console.log(tmpUsers[uid]);
             var i = model.users.indexOf(tmpUsers[uid]);
             model.users.splice(i, 1);
         }
