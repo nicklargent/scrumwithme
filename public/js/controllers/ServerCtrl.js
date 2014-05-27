@@ -52,35 +52,43 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
         socket.emit('bindHost', {sid: model.sid});
     });
 
-
-    var timer = null;
-
     socket.on('dump', function(data) {
-        var allIn = !data.users.some(function(u) { return u.vote == null });
-
-        if (timer != null) {
-            $timeout.cancel(timer);
-            timer = null;
+        var tmpUsers = {};
+        for (var i in model.users) {
+            tmpUsers[model.users[i].uid] = model.users[i];
         }
 
-        if (model.allIn == allIn) {
-            model.users = data.users;
-        }
-        else if (model.allIn) {
-            model.allIn = allIn;
-            timer = $timeout(function() {
-                timer = null;
-                model.users = data.users;
-            }, 550);
-        }
-        else if (!model.allIn) {
-            model.users = data.users;
-            timer = $timeout(function() {
-                timer = null;
-                model.allIn = allIn;
-            }, 50);
+        for (var i in data.users) {
+            var user = data.users[i];
+            var existing = tmpUsers[user.uid];
+            if (existing == null) {
+                console.log("Adding User");
+                console.log(user);
+                model.users.push(user);
+            }
+            else {
+                console.log("Updating User");
+                console.log(user);
+                tmpUsers[user.uid].username = user.username;
+                tmpUsers[user.uid].vote = user.vote;
+                tmpUsers[user.uid].connected = user.connected;
+                delete tmpUsers[user.uid];
+            }
         }
 
+        // delete missing users
+        for (var uid in tmpUsers) {
+            console.log("Removing User");
+            console.log(tmpUsers[uid]);
+            var i = model.users.indexOf(tmpUsers[uid]);
+            model.users.splice(i, 1);
+        }
+
+        model.users.sort(function(a, b) {
+            return a.username > b.username;
+        });
+
+        model.allIn = !model.users.some(function(u) { return u.vote == null });
     });
 
     socket.on('ping', function(data){
