@@ -92,8 +92,4 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
         model.allIn = !model.users.some(function(u) { return u.vote == null });
     });
 
-    socket.on('ping', function(data){
-        socket.emit('pong', data);
-    });
-
 });

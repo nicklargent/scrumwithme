@@ -170,6 +170,3 @@ io.sockets.on('connection', function (socket) {
     }
 });
 
-setInterval(function() {
-    io.sockets.emit('ping', new Date());
-}, 15000);
