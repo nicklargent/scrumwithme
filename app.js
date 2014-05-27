@@ -159,10 +159,6 @@ io.sockets.on('connection', function (socket) {
                 });
             }
 
-            dump.users.sort(function(a, b) {
-                return a.username > b.username;
-            });
-
             console.log(dump);
             s.hostSocket.emit('dump', dump);
         }
