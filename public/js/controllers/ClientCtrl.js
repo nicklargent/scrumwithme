@@ -101,9 +101,4 @@ angular.module('ScrumWithMe').controller('ClientCtrl', function ($scope, $locati
             socket.emit('bindUser', {sid: model.sid, uid: model.uid, username: model.username});
         }
     }
-
-    socket.on('ping', function(data){
-        console.log('ping: ' + data);
-        socket.emit('pong', data);
-    });
 });
