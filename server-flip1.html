@@ -161,7 +161,8 @@
                     <div class="face front">
                     </div>
                     <div class="face back">
-                        <span ng-show="user.vote >= 0">{{user.vote}}</span>
+                        <span ng-show="user.vote >= 0 && user.vote == user.orgVote">{{user.vote}}</span>
+                        <span ng-show="user.vote >= 0 && user.vote != user.orgVote"><span style="position: absolute; color: lightgray; font-weight: normal; text-decoration: line-through; font-size: .5em; top: -90px; left: 10px;">{{user.orgVote}}</span>{{user.vote}}</span>
                     </div>
                 </div>
             </div>

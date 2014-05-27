@@ -63,6 +63,7 @@ io.sockets.on('connection', function (socket) {
             session.users[data.uid] = {
                 uid: data.uid,
                 username: data.username,
+                orgVote: null,
                 vote: null,
                 socket: null
             };
@@ -102,6 +103,7 @@ io.sockets.on('connection', function (socket) {
 
         if (sessions[socket.sid]) {
             for (var uid in sessions[socket.sid].users) {
+                sessions[socket.sid].users[uid].orgVote = null;
                 sessions[socket.sid].users[uid].vote = null;
             }
 
@@ -116,6 +118,8 @@ io.sockets.on('connection', function (socket) {
 
         if (sessions[socket.sid] && sessions[socket.sid].users[socket.uid]) {
             sessions[socket.sid].users[socket.uid].vote = value;
+            if (sessions[socket.sid].users[socket.uid].orgVote == null)
+                sessions[socket.sid].users[socket.uid].orgVote = value;
             sendDumpToHost(socket.sid);
         }
     });
@@ -154,6 +158,7 @@ io.sockets.on('connection', function (socket) {
                 dump.users.push({
                     uid: uid,
                     username: s.users[uid].username,
+                    orgVote: s.users[uid].orgVote,
                     vote: s.users[uid].vote,
                     connected: s.users[uid].socket != null
                 });

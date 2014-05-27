@@ -70,6 +70,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
                 //console.log("Updating User");
                 //console.log(user);
                 tmpUsers[user.uid].username = user.username;
+                tmpUsers[user.uid].orgVote = user.orgVote;
                 tmpUsers[user.uid].vote = user.vote;
                 tmpUsers[user.uid].connected = user.connected;
                 delete tmpUsers[user.uid];
