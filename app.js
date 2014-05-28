@@ -11,7 +11,25 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function (req, res) { res.sendfile(__dirname + '/index.html'); });
 app.get('/host', function (req, res) { res.sendfile(__dirname + '/server-flip1.html'); });
 app.get('/join', function (req, res) { res.sendfile(__dirname + '/client.html'); });
+app.get('/systeminfo', function (req, res) {
+    res.json({
+        upTimeHours: Math.round(((new Date()) - startTime) / 3600000),
+        numberOfSessions: Object.keys(sessions).length,
+        numberOfSockets: io.sockets.clients().length,
+        sessionStats: sessionStats
+    });
+});
 
+
+setInterval(function() {janitor();}, 3600000); // run every hour
+
+var startTime = new Date();
+var oldestSession = null;
+var sessionStats = {
+    averageUsersPerSession: 0,
+    maxUsersPerSession: 0,
+    oldestSession: null
+};
 var sessions = {};
 
 io.sockets.on('connection', function (socket) {
@@ -31,6 +49,7 @@ io.sockets.on('connection', function (socket) {
             console.log("creating new session: " + data.sid);
             sessions[data.sid] = {
                 sid: data.sid,
+                activity: new Date(),
                 users: {},
                 hostSocket: null
             };
@@ -149,6 +168,8 @@ io.sockets.on('connection', function (socket) {
     var sendDumpToHost = function(sid) {
         var s = sessions[sid];
         if (s && s.hostSocket != null) {
+            s.activity = new Date();
+
             var dump = {
                 sid: s.sid,
                 users: []
@@ -170,3 +191,45 @@ io.sockets.on('connection', function (socket) {
     }
 });
 
+
+/*
+ w:604800000,
+ d:86400000,
+ h:3600000,
+ n:60000,
+ s:1000
+ */
+
+var janitor = function() {
+    var d = new Date();
+    sessionStats = {
+        averageUsersPerSession: 0,
+        maxUsersPerSession: 0,
+        oldestSession: null
+    };
+
+    var totalUsers = 0;
+
+    for (var sid in sessions) {
+        var s = sessions[sid];
+        if (sessionStats.oldestSession == null || s.activity < oldestSession)
+            sessionStats.oldestSession = s.activity;
+        var hoursOld = (d - s.activity) / 3600000;
+        if (hoursOld > 3) { // cleanup
+            console.log("Deleting inactive session " + sid);
+            var clients = io.sockets.clients(sid);
+            for (var i in clients) {
+                clients[i].disconnect();
+            }
+            delete sessions[sid];
+        } else { // add to stats
+            var c = Object.keys(s.users).length;
+            if (c > sessionStats.maxUsersPerSession)
+                sessionStats.maxUsersPerSession = c;
+
+            totalUsers += c;
+        }
+    }
+
+    sessionStats.averageUsersPerSession = totalUsers / Object.keys(sessions).length;
+}
