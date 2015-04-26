@@ -1,6 +1,6 @@
 angular.module('ScrumWithMe').factory('socket', function ($rootScope, $location) {
     //console.log($location);
-    var socketUrl = $location.protocol() + "://" + $location.host() + ":4000";
+    var socketUrl = $location.protocol() + "://" + $location.host();
     var socket = io.connect(socketUrl);
     return {
         on: function (eventName, callback) {
