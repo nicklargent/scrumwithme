@@ -38,8 +38,8 @@
             .flip {
                 -webkit-perspective: 800;
                 perspective: 800;
-                width: 160px;
-                height: 230px;
+                width: 180px;
+                height: 250px;
                 position: relative;
             }
             .flip .card2.flipped {
@@ -73,7 +73,7 @@
             .flip .card2 .front {
                 position: absolute;
                 z-index: 1;
-                background-image: url('/cardback-blue.png');
+                background-image: url('/cardback.png');
                 background-size: 100% 100%;
                 border: 1px solid white;
             }
@@ -81,7 +81,7 @@
                 -webkit-transform: rotatey(-180deg);
                 transform: rotatey(-180deg);
                 border: 1px solid darkgray;
-                border-radius: 3px;
+                border-radius: 6px;
             }
 
 
@@ -153,7 +153,7 @@
             <h1 style="text-align: center">Empty Session</h1>
         </div>
 
-        <div style="width: {{model.users.length * 180}}px; margin: auto">
+        <div style="width: {{model.users.length * 200}}px; margin: auto">
 
             <div ng-repeat="user in model.users" class="card-container flip">
                 <div class="card-name" ng-class="{'disconnected': !user.connected}">{{user.username}} <a href="#" ng-click="kick(user)"><img src="close.gif" border="0" /></a></div>
