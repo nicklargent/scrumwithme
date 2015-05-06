@@ -19,7 +19,7 @@ angular.module('ScrumWithMe').factory('socket', function ($rootScope, $location)
                         callback.apply(socket, args);
                     }
                 });
-            })
+            });
         }
     };
 });
