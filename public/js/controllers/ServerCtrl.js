@@ -1,18 +1,17 @@
 /**
  * Created by Nick Largent on 5/19/14.
  */
-'use strict';
 
 angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $location, $timeout, $cookieStore, socket, tools) {
 
     $scope.newSession = function() {
         sid = tools.generateSessionId();
         window.location = tools.buildHostUrl(sid);
-    }
+    };
 
     var sid =  $location.search().session;
 
-    if (sid == null) {
+    if (sid === null) {
         $scope.newSession();
     }
 
@@ -28,11 +27,11 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
 
     $scope.reset = function() {
         socket.emit("reset");
-    }
+    };
 
     $scope.kick = function(user) {
         socket.emit("kick", user.uid);
-    }
+    };
 
     /*  This is needed for the basic (non flipping) view
     $scope.getCardClass = function(user) {
@@ -58,10 +57,10 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
             tmpUsers[model.users[i].uid] = model.users[i];
         }
 
-        for (var i in data.users) {
+        for (i in data.users) {
             var user = data.users[i];
             var existing = tmpUsers[user.uid];
-            if (existing == null) {
+            if (existing === null) {
                 //console.log("Adding User");
                 //console.log(user);
                 model.users.push(user);
@@ -81,7 +80,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
         for (var uid in tmpUsers) {
             //console.log("Removing User");
             //console.log(tmpUsers[uid]);
-            var i = model.users.indexOf(tmpUsers[uid]);
+            i = model.users.indexOf(tmpUsers[uid]);
             model.users.splice(i, 1);
         }
 
@@ -89,7 +88,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
             return a.username > b.username;
         });
 
-        model.allIn = !model.users.some(function(u) { return u.vote == null });
+        model.allIn = !model.users.some(function(u) { return u.vote === null; });
     });
 
 });

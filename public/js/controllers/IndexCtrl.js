@@ -8,10 +8,10 @@ angular.module('ScrumWithMe').controller('IndexCtrl', ['$scope', '$window', func
 
     $scope.host = function() {
         $window.location = "/host";
-    }
+    };
 
     $scope.join = function() {
         $window.location = "/join?session=" + $scope.sessionid.toLowerCase();
-    }
+    };
 
 }]);
