@@ -19,6 +19,9 @@ module.exports = (grunt) ->
 
         # tasks
 
+        clean:
+            workspaces: ['public/dist', 'build', 'scrumwithme.*.zip']
+
         open:
             dev:
                 path: "http://localhost:4000"
@@ -42,6 +45,20 @@ module.exports = (grunt) ->
                 src: "<%=concat.app_js.dest %>"
                 dest: "<%=concat.app_js.dest %>"
 
+
+        copy:
+            build:
+                src: ["app/**", "public/**", ".ebextensions/**", "package.json", "!public/src/**", "!public/vendor/**"]
+                dest: "build"
+                expand: true
+
+        compress:
+            build:
+                options:
+                    archive: "<%=pkg.name%>." + grunt.template.today('yyyymmddHHMM') + ".zip"
+                    mode: "zip"
+                cwd: "build"
+                src: ["**"]
 
         watch:
             options:
@@ -71,7 +88,7 @@ module.exports = (grunt) ->
 
     # create workflow
     grunt.registerTask 'default', ['concat', 'open', 'concurrent']
-    grunt.registerTask 'build', ['jshint', 'concat', 'uglify']
+    grunt.registerTask 'build', ['clean', 'jshint', 'concat', 'uglify', 'copy:build', 'compress:build']
 
 
 
