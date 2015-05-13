@@ -7,10 +7,10 @@ var express = require('express'),
 
 server.listen(process.env.PORT || 4000);
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.get('/', function (req, res) { res.sendfile(__dirname + '/index.html'); });
-app.get('/host', function (req, res) { res.sendfile(__dirname + '/server-flip1.html'); });
-app.get('/join', function (req, res) { res.sendfile(__dirname + '/client.html'); });
+app.use(express.static(path.resolve(path.join(__dirname, '/../public'))));
+app.get('/', function (req, res) { res.sendfile(path.resolve(__dirname + '/../public/index.html')); });
+app.get('/host', function (req, res) { res.sendfile(path.resolve(__dirname + '/../public/server-flip1.html')); });
+app.get('/join', function (req, res) { res.sendfile(path.resolve(__dirname + '/../public/client.html')); });
 app.get('/systeminfo', function (req, res) {
     res.json({
         upTimeHours: Math.round(((new Date()) - startTime) / 3600000),

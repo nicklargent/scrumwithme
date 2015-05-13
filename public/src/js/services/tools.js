@@ -7,7 +7,7 @@ String.prototype.repeat = function( num )
     return new Array( num + 1 ).join( this );
 };
 
-angular.module('ScrumWithMe').factory('tools', function ($rootScope, $location) {
+angular.module('ScrumWithMe').factory('tools', ['$rootScope', '$location', function ($rootScope, $location) {
 
     return {
 
@@ -41,4 +41,4 @@ angular.module('ScrumWithMe').factory('tools', function ($rootScope, $location) 
         }
     };
 
-});
+}]);

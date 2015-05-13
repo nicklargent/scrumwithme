@@ -34,13 +34,8 @@
         <input ng-model="sessionid" placeholder="Session ID"><br/>
         <button ng-disabled="sessionid.length != 6" ng-click="join()">Join</button>
 
-
-
         <script src="/socket.io/socket.io.js"></script>
-        <script src="lib/angular/angular.js"></script>
-        <script src="lib/angular/angular-cookies.js"></script>
-        <script src="js/ScrumWithMe.js"></script>
-        <script src="js/services/socket.js"></script>
-        <script src="js/controllers/IndexCtrl.js"></script>
+        <script src="dist/js/vendor.min.js"></script>
+        <script src="dist/js/app.min.js"></script>
     </body>
 </html>
