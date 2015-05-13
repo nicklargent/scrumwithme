@@ -73,7 +73,7 @@
             .flip .card2 .front {
                 position: absolute;
                 z-index: 1;
-                background-image: url('/cardback.png');
+                background-image: url('images/cardback.png');
                 background-size: 100% 100%;
                 border: 1px solid white;
             }
@@ -156,7 +156,7 @@
         <div style="width: {{model.users.length * 200}}px; margin: auto">
 
             <div ng-repeat="user in model.users" class="card-container flip">
-                <div class="card-name" ng-class="{'disconnected': !user.connected}">{{user.username}} <a href="#" ng-click="kick(user)"><img src="close.gif" border="0" /></a></div>
+                <div class="card-name" ng-class="{'disconnected': !user.connected}">{{user.username}} <a href="#" ng-click="kick(user)"><img src="images/close.gif" border="0" /></a></div>
                 <div class="card2" ng-class="{'flipped': model.allIn, 'unknown': user.vote == null}">
                     <div class="face front">
                     </div>
@@ -187,11 +187,8 @@
         </div>
 
         <script src="/socket.io/socket.io.js"></script>
-        <script src="lib/angular/angular.js"></script>
-        <script src="lib/angular/angular-cookies.js"></script>
-        <script src="js/ScrumWithMe.js"></script>
-        <script src="js/controllers/ServerCtrl.js"></script>
-        <script src="js/services/socket.js"></script>
-        <script src="js/services/tools.js"></script>
+        <script src="dist/js/vendor.min.js"></script>
+        <script src="dist/js/app.min.js"></script>
+
     </body>
 </html>

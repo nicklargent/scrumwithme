@@ -2,7 +2,7 @@
  * Created by Nick Largent on 5/19/14.
  */
 
-angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $location, $timeout, $cookieStore, socket, tools) {
+angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '$timeout', '$cookieStore', 'socket', 'tools', function ($scope, $location, $timeout, $cookieStore, socket, tools) {
 
     $scope.newSession = function() {
         sid = tools.generateSessionId();
@@ -11,7 +11,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
 
     var sid =  $location.search().session;
 
-    if (sid === null) {
+    if (!sid) {
         $scope.newSession();
     }
 
@@ -19,7 +19,6 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
         sid: sid,
         joinUrl: tools.buildJoinUrl(sid),
         qrcodeUrl: 'http://chart.apis.google.com/chart?cht=qr&chs=100x100&chld=L|0&chl=' + encodeURIComponent(tools.buildJoinUrl(sid)),
-        cardBackImage: '/cardback-gear.jpg',
         users: [],
         allIn: false
     };
@@ -60,7 +59,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
         for (i in data.users) {
             var user = data.users[i];
             var existing = tmpUsers[user.uid];
-            if (existing === null) {
+            if (!existing) {
                 //console.log("Adding User");
                 //console.log(user);
                 model.users.push(user);
@@ -91,4 +90,4 @@ angular.module('ScrumWithMe').controller('ServerCtrl', function ($scope, $locati
         model.allIn = !model.users.some(function(u) { return u.vote === null; });
     });
 
-});
+}]);
