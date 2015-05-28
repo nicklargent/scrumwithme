@@ -5,6 +5,8 @@ module.exports = (grunt) ->
 
         pkg: grunt.file.readJSON("package.json")
 
+        appVersion: grunt.template.today('yyyymmddHHMM')
+
         files:
             js:
                 vendor: [
@@ -52,10 +54,19 @@ module.exports = (grunt) ->
                 dest: "build"
                 expand: true
 
+        replace:
+            all:
+                src: ['public/dist/js/app.min.js']
+                overwrite: true
+                replacements: [
+                    from: "{{APP.VERSION}}"
+                    to: "<%=appVersion%>"
+                ]
+
         compress:
             build:
                 options:
-                    archive: "<%=pkg.name%>." + grunt.template.today('yyyymmddHHMM') + ".zip"
+                    archive: "<%=pkg.name%>.<%=appVersion%>.zip"
                     mode: "zip"
                 cwd: "build"
                 src: ["**"]
@@ -66,7 +77,7 @@ module.exports = (grunt) ->
 
             js:
                 files: "<%=files.js.src%>"
-                tasks: "concat:app_js"
+                tasks: ["concat:app_js", 'replace']
 
             html:
                 files: "<%=files.html.src%>"
@@ -87,8 +98,8 @@ module.exports = (grunt) ->
     require('matchdep').filterAll('grunt-*').forEach(grunt.loadNpmTasks);
 
     # create workflow
-    grunt.registerTask 'default', ['concat', 'open', 'concurrent']
-    grunt.registerTask 'build', ['clean', 'jshint', 'concat', 'uglify', 'copy:build', 'compress:build']
+    grunt.registerTask 'default', ['concat', 'replace', 'open', 'concurrent']
+    grunt.registerTask 'build', ['clean', 'jshint', 'concat', 'uglify', 'replace', 'copy:build', 'compress:build']
 
 
 
