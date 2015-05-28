@@ -10,4 +10,5 @@ app.config(['$locationProvider', function($locationProvider) {
 
 app.run(['$rootScope', function($rootScope) {
     $rootScope.appName = "scrumwith.me";
+    $rootScope.appVersion = "{{APP.VERSION}}";
 }]);
