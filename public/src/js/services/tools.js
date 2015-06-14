@@ -11,8 +11,12 @@ angular.module('ScrumWithMe').factory('tools', ['$rootScope', '$location', funct
 
     return {
 
-        generateRandomString: function(length){
-            var dict = "abcdefghjklmnpqrstuvwxyz0123456789";
+        generateRandomString: function(length, includeLetters, includeNumbers){
+            var dict = "";
+            if (includeLetters)
+                dict += "abcdefghjklmnpqrstuvwxyz";
+            if (includeNumbers)
+                dict += "0123456789";
             var str = 'x'.repeat(length).replace(/[xy]/g, function(c) {
                 var r = Math.random()*dict.length;
                 return dict.charAt(r);
@@ -21,11 +25,11 @@ angular.module('ScrumWithMe').factory('tools', ['$rootScope', '$location', funct
         },
 
         generateSessionId: function() {
-            return this.generateRandomString(6);
+            return this.generateRandomString(6, false, true);
         },
 
         generateUserId: function() {
-            return this.generateRandomString(32);
+            return this.generateRandomString(32, true, true);
         },
 
         buildHostUrl: function(uuid) {

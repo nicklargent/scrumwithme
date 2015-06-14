@@ -22,7 +22,9 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
     var model = {
         sid: sid,
         joinUrl: tools.buildJoinUrl(sid),
+        showConnectCode: true,
         qrcodeUrl: 'http://chart.apis.google.com/chart?cht=qr&chs=100x100&chld=L|0&chl=' + encodeURIComponent(tools.buildJoinUrl(sid)),
+        qrcodeUrlBig: 'http://chart.apis.google.com/chart?cht=qr&chs=500x500&chld=L|0&chl=' + encodeURIComponent(tools.buildJoinUrl(sid)),
         users: [],
         allIn: false
     };
@@ -35,6 +37,10 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
     $scope.kick = function(user) {
         socket.emit("kick", user.uid);
     };
+
+    $scope.showConnectCode = function() {
+        model.showConnectCode = !model.showConnectCode;
+    }
 
     /*  This is needed for the basic (non flipping) view
     $scope.getCardClass = function(user) {
@@ -52,6 +58,10 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
 
     socket.on('connect', function(){
         socket.emit('bindHost', {sid: model.sid});
+    });
+
+    socket.on('reset', function(mode) {
+        model.showConnectCode = false;
     });
 
     socket.on('dump', function(data) {
@@ -92,6 +102,13 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
         });
 
         model.allIn = !model.users.some(function(u) { return u.vote === null; });
+
+        if (model.users.length == 0)
+            model.showConnectCode = true;
+
+        if (model.users.some(function(u) { return u.vote !== null; }))
+            model.showConnectCode = false;
+
     });
 
 }]);
