@@ -6,7 +6,7 @@
     "start": "node app/app.js"
   },
   "dependencies": {
-    "express": "*",
+    "express": "4.3.1",
     "socket.io": "0.9.17"
   },
   "devDependencies": {
