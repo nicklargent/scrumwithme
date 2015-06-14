@@ -71,7 +71,7 @@
     <body class="ng-cloak">
 
         <div class="zheader">
-            <div style="float: left; text-transform: uppercase; width: 33%; text-align: left;"><img style="vertical-align: text-top;" ng-src="images/{{connectedIcon()}}" />{{model.sid}}</div>
+            <div style="float: left; text-transform: uppercase; width: 33%; text-align: left; font-weight: bold;"><img style="vertical-align: text-top;" ng-src="images/{{connectedIcon()}}" />{{model.sid}}</div>
             <div style="float: right; width: 33%; text-align: right;">{{model.username}}&nbsp;<img src="images/gear2.png" style="vertical-align: text-top; opacity: .6;" ng-click="showSettings()" /></div>
             <div style="font-weight: bold;"><img src="favicon.png" height="16" style="vertical-align: middle;" /> scrum<span style="color: #FFEFCC;">with</span>.me</div>
         </div>
@@ -80,6 +80,10 @@
             <input type="text" ng-model="model.newUsername" placeholder="Name">
             <br/>
             <button ng-disabled="model.newUsername.length < 3" ng-click='join()' style="margin: 20px; padding: 10px;">Join</button>
+        </div>
+
+        <div ng-show="model.showConnectCode" style="position: fixed; bottom: 55px; border: 1px solid black; background: white; width: 90%; left: 5%;">
+            <img ng-src="{{model.qrcodeUrl}}" style="margin: 5%; width: 90%;" ng-click="showConnectCode()">
         </div>
 
         <div ng-show="model.showSettings" style="position: fixed; border: 1px solid black; background: white; width: 80%; left: 10%;">
@@ -99,6 +103,7 @@
 
             <div style="background-color: lightgrey; position: fixed; bottom: 0; height: 50px; width: 100%;">
                 <button ng-click='reset()' style="margin: 10px; height: 30px; float: left;">Reset All</button>
+                <img ng-src="{{model.qrcodeUrl}}" style="margin: 10px; height: 30px;" ng-click="showConnectCode()">
                 <button ng-click='leave()' style="margin: 10px; height: 30px; float: right;">Leave</button>
             </div>
 

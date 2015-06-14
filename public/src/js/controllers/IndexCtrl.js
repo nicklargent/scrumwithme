@@ -11,7 +11,7 @@ angular.module('ScrumWithMe').controller('IndexCtrl', ['$scope', '$window', func
     };
 
     $scope.join = function() {
-        $window.location = "/join?session=" + $scope.sessionid.toLowerCase();
+        $window.location = "/join?session=" + $scope.sessionid.toString().toLowerCase();
     };
 
 }]);

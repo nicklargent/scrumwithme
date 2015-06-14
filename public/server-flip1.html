@@ -132,6 +132,12 @@
             <h2 style="text-align: center; margin: 4px;"><img src="images/card-fan-small.png" style="vertical-align: middle;" /> scrum<span style="color: #FFEFCC;">with</span>.me</h2>
         </div>
 
+        <div ng-show="model.showConnectCode" style="position: absolute; zbottom: 55px; width: 100%; top: 150px; z-index: 99;">
+            <div style="border: 1px solid black; background: white; padding: 20px; text-algin: center; margin-left: auto; margin-right: auto; width: 600px;">
+                <img ng-src="{{model.qrcodeUrlBig}}" width="600" ng-click="showConnectCode()">
+            </div>
+        </div>
+
         <div ng-show="model.users.length == 0">
             <h1 style="text-align: center">Empty Session</h1>
         </div>
@@ -158,8 +164,8 @@
             </div>
 
             <div class="qrcode">
-                <a style="text-decoration: none;" href="{{model.joinUrl}}" target="_blank"><span class="sessionid" ng-bind="model.sid"></span></a><br/>
-                <img ng-src="{{model.qrcodeUrl}}">
+                <a style="text-decoration: none; color: white; letter-spacing: 3pt;" href="{{model.joinUrl}}" target="_blank"><span class="sessionid" ng-bind="model.sid"></span></a><br/>
+                <img ng-src="{{model.qrcodeUrl}}" ng-click="showConnectCode()">
             </div>
 
             <div style="text-align: center; width: 400px; margin: auto;" ng-show="model.users.length > 0">

@@ -13,10 +13,17 @@ angular.module('ScrumWithMe').controller('ClientCtrl', ['$scope', '$location', '
         return uid;
     };
 
+    var sid = $location.search().session;
+    if (sid) {
+        sid = sid.toLowerCase();
+    }
+
     var model = {
         uid: getUser(),
-        sid: $location.search().session,
+        sid: sid,
+        qrcodeUrl: 'http://chart.apis.google.com/chart?cht=qr&chs=100x100&chld=L|0&chl=' + encodeURIComponent(tools.buildJoinUrl(sid)),
         showSettings: false,
+        showConnectCode: false,
         newUsername: '',
         connected: false,
         loggedIn: false,
@@ -39,6 +46,10 @@ angular.module('ScrumWithMe').controller('ClientCtrl', ['$scope', '$location', '
         model.newUsername = model.username;
         model.showSettings = true;
     };
+
+    $scope.showConnectCode = function() {
+        model.showConnectCode = !model.showConnectCode;
+    }
 
     $scope.saveSettings = function() {
         $scope.join();
