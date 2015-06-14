@@ -12,7 +12,11 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
     var sid =  $location.search().session;
 
     if (!sid) {
-        $scope.newSession();
+        sid = tools.generateSessionId();
+        $location.search("session", sid);
+    }
+    else {
+        sid = sid.toLowerCase();
     }
 
     var model = {

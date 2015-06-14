@@ -3,10 +3,12 @@
     <head>
         <title ng-bind="appName"></title>
 
+        <link rel="stylesheet" type="text/css" href="dist/css/app.css" />
+
         <style>
 
             body {
-                margin: 0;
+                background: rgba(224, 200, 148, .4);
             }
 
             .card-container {
@@ -82,6 +84,7 @@
                 transform: rotatey(-180deg);
                 border: 1px solid darkgray;
                 border-radius: 6px;
+                background-color: white;
             }
 
 
@@ -116,27 +119,6 @@
                 text-transform:uppercase;
             }
 
-            .header {
-                border: 1px solid #222222;
-                background-color: #222222;
-                color: lightgray;
-                font-family: sans-serif;
-                font-size: .8em;
-                margin-bottom: 10px;
-            }
-
-            .footer {
-                position: fixed;
-                bottom: 0px;
-                width: 100%;
-                zheight: 200px;
-
-                background-color: lightgray;
-                font-family: sans-serif;
-                font-size: .8em;
-                margin-top: 10px;
-            }
-
             .ng-cloak {
                 display: none;
             }
@@ -146,11 +128,8 @@
     <body class="ng-cloak">
 
         <div class="header">
-            <div style="margin: 4px; color: #222222; right: 0; position: absolute; font-size: 8pt;">
-                {{appVersion}}
-            </div>
-
-            <h2 style="text-align: center;">{{appName}}</h2>
+            <div style="margin: 4px; color: rgba(0, 0, 0, .4); right: 0; position: absolute; font-size: 8pt;" ng-bind="appVersion"></div>
+            <h2 style="text-align: center; margin: 4px;"><img src="images/card-fan-small.png" style="vertical-align: middle;" /> scrum<span style="color: #FFEFCC;">with</span>.me</h2>
         </div>
 
         <div ng-show="model.users.length == 0">
@@ -179,7 +158,7 @@
             </div>
 
             <div class="qrcode">
-                <a style="text-decoration: none;" href="{{model.joinUrl}}" target="_blank"><span class="sessionid">{{model.sid}}</span></a><br/>
+                <a style="text-decoration: none;" href="{{model.joinUrl}}" target="_blank"><span class="sessionid" ng-bind="model.sid"></span></a><br/>
                 <img ng-src="{{model.qrcodeUrl}}">
             </div>
 

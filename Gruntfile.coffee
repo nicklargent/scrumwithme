@@ -15,6 +15,9 @@ module.exports = (grunt) ->
                 ]
                 src: ["public/src/js/**/*.js"]
 
+            css:
+                src: ["public/src/css/**/*.css"]
+
             html:
                 src: ["*.html"]
 
@@ -38,6 +41,10 @@ module.exports = (grunt) ->
             vendor_js:
                 dest: 'public/dist/js/vendor.min.js'
                 src: ["<%=files.js.vendor%>"]
+
+            app_css:
+                dest: 'public/dist/css/app.css'
+                src: ["<%=files.css.src%>"]
 
         uglify:
             #options:
@@ -78,6 +85,10 @@ module.exports = (grunt) ->
             js:
                 files: "<%=files.js.src%>"
                 tasks: ["concat:app_js", 'replace']
+
+            css:
+                files: "<%=files.css.src%>"
+                tasks: ["concat:app_css", 'replace']
 
             html:
                 files: "<%=files.html.src%>"

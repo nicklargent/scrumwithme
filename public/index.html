@@ -3,9 +3,18 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title ng-bind="appName"></title>
+
+        <link rel="stylesheet" type="text/css" href="dist/css/app.css" />
+
         <style>
             body {
                 text-align: center;
+
+                background-image: url('images/page-background.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+
+                font-family: sans-serif;
             }
 
             button {
@@ -20,19 +29,219 @@
                 -webkit-border-radius: 0;
             }
 
+            .button_area {
+                background-color: white;
+                border: 1px solid grey;
+                border-right: 8px solid #6A7597;
+                width: 300px;
+                height: 120px;
+                text-align: center;
+                position: absolute;
+                opacity: 0.8;
+            }
+
+            .button_area:hover {
+                background-color: #FFEFCC;
+                border-right: 8px solid #1B2852;
+                opacity: 1;
+            }
+
+            .button_area h1 {
+                margin: 0;
+                margin-top: 30px;
+                color: #6A7597;
+            }
+
+            .button_area p {
+                margin: 0;
+                color: #979EB7;
+            }
+
+            .button_area input {
+                padding: 3px;
+                border: 1px solid lightgray;
+            }
+
+            .button_area1 {
+                border-radius: 20px 20px 0 0;
+                top: 100px;
+                right: 50px;
+                cursor: pointer;
+            }
+
+            .button_area2 {
+                border-radius: 0 0 20px 20px;
+                top: 220px;
+                right: 50px;
+            }
+
+            .container {
+                background-color: rgba(0, 0, 0, .3);
+                border-radius: 20px;
+                border-top: 12px solid rgba(0, 0, 0, .4);
+                border-bottom: 12px solid rgba(0, 0, 0, .4);
+                width: 800px;
+                margin-top: 100px;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 50px;
+                padding-top: 0;
+                height: 380px;
+                position: relative;
+            }
+
+            .text-contianer {
+                color: white;
+                text-align: left;
+                font-size: 1.3em;
+                margin-right: 400px;
+            }
+
+            .button-container {
+                height: 120px;
+                float: right;
+            }
+
+            .shadowed {
+                text-shadow: 3px 2px rgba(0,0,0,.4);
+            }
+
+            .mini-footer {
+                font-size: .8em;
+                margin-top: 20px;
+                opacity: .5;
+            }
+
+            .footer a {
+                color: black;
+            }
+
+            ul {
+                list-style-image: url('images/bullet.png');
+            }
+
+
+            @media (max-width: 1000px) {
+
+                body {
+                    background-image: url('images/page-background-portrait.jpg');
+                    width: 100%;
+                }
+
+                br {
+                    display: none;
+                }
+
+                .mini-header {
+                    width: 100%;
+                    border-radius: inherit;
+                }
+
+                .container {
+                    width: 100%;
+                    border: 0;
+                    margin: 0;
+                    padding: 0;
+                    padding-top: 0;
+                    height: 100%;
+                    border-radius: inherit;
+                }
+
+                .button_area {
+                    zwidth: 100%;
+                    height: 120px;
+                    margin: 20px;
+                    margin-left: auto;
+                    margin-right: auto;
+                    zpadding: 0;
+                    position: inherit;
+                }
+
+                .text-contianer {
+                    margin: 20px;
+                    color: white;
+                    text-align: left;
+                    font-size: 1.3em;
+                    zborder: 1px solid red;
+                    padding-bottom: 20px;
+                }
+
+                .button-container {
+                    zheight: 240px;
+                    float: none;
+                    zborder: 1px solid blue;
+                }
+
+                .button_area1 {
+                    display: none;
+                }
+
+                .button_area2 {
+                    border-radius: 20px;
+                    ztop: 220px;
+                    zright: 50px;
+                }
+
+            }
+
+
         </style>
     </head>
     <body>
 
-        <h1 ng-bind="appName"></h1>
+    <!--
+        <div class="header">
+            <div style="margin: 4px; color: #6A7597; right: 0; position: absolute; font-size: 8pt;" ng-bind="appVersion"></div>
+            <h2 style="text-align: center; margin: 4px;"><img src="images/card-fan-small.png" style="vertical-align: middle;" /> scrum<span style="color: #FFEFCC;">with</span>.me</h2>
+        </div>-->
 
 
-        <button ng-click="host()">Host Session<span style="font-size: .5em;"><br/>(Chrome Only)</span></button><br/>
+        <div class="container">
 
-        <br/><br/>
+            <div class="mini-header">
+                <h2><img src="images/card-fan-small.png" /> scrum<span style="color: #FFEFCC;">with</span>.me</h2>
+            </div>
 
-        <input ng-model="sessionid" placeholder="Session ID"><br/>
-        <button ng-disabled="sessionid.length != 6" ng-click="join()">Join</button>
+
+            <div class="button-container">
+                <div class="button_area button_area1" ng-click="host()">
+
+                    <h1>Host</h1>
+                    <p>(Chrome Only)</p>
+
+                </div>
+
+                <div class="button_area button_area2">
+
+                    <h1>Join</h1>
+                    <p><input ng-model="sessionid" placeholder="enter session code"><img src="images/arrow-right.png" height="28" style="vertical-align: middle; cursor: pointer;" ng-click="join()" /></p>
+
+                </div>
+            </div>
+
+
+            <div class="text-contianer">
+                <h1 class="shadowed">No hassle<br/> Planning Poker</h1>
+                <p>Just the right set of features for quick <br/> ad-hoc estimation sessions.  </p>
+                <ul>
+                    <li>Virtual cards</li>
+                    <li>Mobile voting interface</li>
+                    <li>No login necessary</li>
+                    <li>Nothing in the way</li>
+                </ul>
+                <br/>
+            </div>
+
+
+
+
+        </div>
+
+        <div class="mini-footer">
+            Copyright &copy; 2015 <a href="http://www.nicklargent.com" target="_blank">Nick Largent</a> | Source Code on <a href="https://bitbucket.org/arack99/scrumwithme" target="_blank">Bitbucket</a>
+
+        </div>
+
 
         <script src="/socket.io/socket.io.js"></script>
         <script src="dist/js/vendor.min.js"></script>
