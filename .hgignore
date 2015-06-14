@@ -4,3 +4,4 @@ public/dist
 .idea
 build
 *.zip
+**/Thumbs.db

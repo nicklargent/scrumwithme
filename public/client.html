@@ -3,6 +3,9 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title ng-bind="appName"></title>
+
+        <link rel="stylesheet" type="text/css" href="dist/css/app.css" />
+
         <style>
             body {
                 text-align: center;
@@ -52,7 +55,7 @@
                 font-size: 2em;
             }
 
-            .header {
+            .zheader {
                 border: 1px solid black;
                 background-color: #222222;
                 color: #bbbbbb;
@@ -67,10 +70,10 @@
     </head>
     <body class="ng-cloak">
 
-        <div class="header">
+        <div class="zheader">
             <div style="float: left; text-transform: uppercase; width: 33%; text-align: left;"><img style="vertical-align: text-top;" ng-src="images/{{connectedIcon()}}" />{{model.sid}}</div>
             <div style="float: right; width: 33%; text-align: right;">{{model.username}}&nbsp;<img src="images/gear2.png" style="vertical-align: text-top; opacity: .6;" ng-click="showSettings()" /></div>
-            <div>{{appName}}</div>
+            <div style="font-weight: bold;"><img src="favicon.png" height="16" style="vertical-align: middle;" /> scrum<span style="color: #FFEFCC;">with</span>.me</div>
         </div>
 
         <div ng-show="!model.isLoggedIn()" style="padding: 20px;">
