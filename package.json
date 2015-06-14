@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "express": "*",
-    "socket.io": "*"
+    "socket.io": "0.9.17"
   },
   "devDependencies": {
     "grunt": "*",
