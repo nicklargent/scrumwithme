@@ -49,7 +49,7 @@ angular.module('ScrumWithMe').controller('ClientCtrl', ['$scope', '$location', '
 
     $scope.showConnectCode = function() {
         model.showConnectCode = !model.showConnectCode;
-    }
+    };
 
     $scope.saveSettings = function() {
         $scope.join();
