@@ -16,11 +16,12 @@ angular.module('ScrumWithMe').factory('tools', ['$rootScope', '$location', funct
             if (includeLetters)
                 dict += "abcdefghjklmnpqrstuvwxyz";
             if (includeNumbers)
-                dict += "0123456789";
+                dict += "123456789";
             var str = 'x'.repeat(length).replace(/[xy]/g, function(c) {
                 var r = Math.random()*dict.length;
                 return dict.charAt(r);
             });
+
             return str;
         },
 

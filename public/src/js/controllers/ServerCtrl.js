@@ -40,7 +40,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
 
     $scope.showConnectCode = function() {
         model.showConnectCode = !model.showConnectCode;
-    }
+    };
 
     /*  This is needed for the basic (non flipping) view
     $scope.getCardClass = function(user) {
@@ -103,7 +103,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
 
         model.allIn = !model.users.some(function(u) { return u.vote === null; });
 
-        if (model.users.length == 0)
+        if (model.users.length === 0)
             model.showConnectCode = true;
 
         if (model.users.some(function(u) { return u.vote !== null; }))
