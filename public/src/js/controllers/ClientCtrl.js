@@ -27,6 +27,7 @@ angular.module('ScrumWithMe').controller('ClientCtrl', ['$scope', '$location', '
         newUsername: '',
         connected: false,
         loggedIn: false,
+        transport: 'unknown',
         username: $cookieStore.get('username') || '',
         isLoggedIn: function() {
             return this.username && this.username.length > 0;
@@ -62,6 +63,7 @@ angular.module('ScrumWithMe').controller('ClientCtrl', ['$scope', '$location', '
 
     socket.on('connect', function(){
         model.connected = true;
+        model.transport = socket.transport();
         doJoin();
     });
 

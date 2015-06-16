@@ -2,7 +2,14 @@ angular.module('ScrumWithMe').factory('socket', ['$rootScope', '$location', func
     //console.log($location);
     var socketUrl = $location.protocol() + "://" + $location.host();
     var socket = io.connect(socketUrl);
+
     return {
+        transport: function() {
+            if (socket.socket.transport)
+                return socket.socket.transport.name;
+            else
+                return "unknown";
+        },
         on: function (eventName, callback) {
             socket.on(eventName, function () {
                 var args = arguments;
