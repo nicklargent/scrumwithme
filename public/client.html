@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en" ng-app="ScrumWithMe" ng-controller="ClientCtrl">
     <head>
+        <!--<script src="https://getfirebug.com/firebug-lite.js#debug=true"></script>-->
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title ng-bind="appName"></title>
 
@@ -92,6 +94,10 @@
                 <br/>
                 <button ng-click='saveSettings()' style="margin: 20px; padding: 10px;">Save</button>
                 <button ng-click='cancelSettings()' style="margin: 20px; padding: 10px;">Cancel</button>
+
+                <hr/>
+                <b>Debug Info</b><br/>
+                Transport: {{model.transport}}<br/>
             </div>
         </div>
 
