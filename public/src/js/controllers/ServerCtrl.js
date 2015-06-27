@@ -23,8 +23,8 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
         sid: sid,
         joinUrl: tools.buildJoinUrl(sid),
         showConnectCode: true,
-        qrcodeUrl: 'http://chart.apis.google.com/chart?cht=qr&chs=100x100&chld=L|0&chl=' + encodeURIComponent(tools.buildJoinUrl(sid)),
-        qrcodeUrlBig: 'http://chart.apis.google.com/chart?cht=qr&chs=500x500&chld=L|0&chl=' + encodeURIComponent(tools.buildJoinUrl(sid)),
+        qrcodeUrl: '/qrcode?size=100&url=' + encodeURIComponent(tools.buildJoinUrl(sid)),
+        qrcodeUrlBig: '/qrcode?size=500&url=' + encodeURIComponent(tools.buildJoinUrl(sid)),
         users: [],
         allIn: false
     };

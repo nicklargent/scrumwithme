@@ -2,7 +2,8 @@ var express = require('express'),
     app = express(),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server, { log: false }),
-    path = require('path')
+    path = require('path'),
+    proxy = require('express-http-proxy')
     ;
 
 server.listen(process.env.PORT || 4000);
@@ -19,6 +20,15 @@ app.get('/systeminfo', function (req, res) {
         sessionStats: sessionStats
     });
 });
+
+app.use('/qrcode', proxy('chart.apis.google.com', {
+    forwardPath: function(req, res) {
+        var url = req.query.url;
+        var size = req.query.size;
+        var url_path = "/chart?cht=qr&chs=" + size + "x" + size + "&chld=L|0&chl=" + url;
+        return url_path;
+    }
+}));
 
 
 setInterval(function() {janitor();}, 3600000); // run every hour
