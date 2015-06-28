@@ -42,19 +42,9 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
         model.showConnectCode = !model.showConnectCode;
     };
 
-    /*  This is needed for the basic (non flipping) view
-    $scope.getCardClass = function(user) {
-        if (model.allIn && user.vote >= 0) {
-            return 'visible';
-        }
-        else if (!model.allIn && user.vote >= 0) {
-            return 'hidden';
-        }
-        else {
-            return 'unknown';
-        }
-    }
-    */
+    $scope.getCardContainerStyle = function() {
+        return {'width': (model.users.length * 200) + 'px'};
+    };
 
     socket.on('connect', function(){
         socket.emit('bindHost', {sid: model.sid});
