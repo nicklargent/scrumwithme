@@ -14,7 +14,8 @@
             .card-container {
                 float: left;
                 margin: 10px;
-                zborder: 1px solid red;
+                width: 180px;
+                height: 250px;
             }
 
             .card-name {
@@ -38,60 +39,49 @@
             }
 
             .flip {
-                -webkit-perspective: 800;
-                perspective: 800;
-                width: 180px;
-                height: 250px;
+                perspective: 800px;
                 position: relative;
             }
-            .flip .card2.flipped {
-                -webkit-transform: rotatey(-180deg);
-                transform: rotatey(-180deg);
-            }
-            .flip .card2.unknown {
-                opacity: 0.2;
-            }
-            .flip .card2 {
-                width: 100%;
-                height: 100%;
-                -webkit-transform-style: preserve-3d;
-                -webkit-transition: 0.5s;
-                transform-style: preserve-3d;
-                transition: 0.5s;
-            }
-            .flip .card2 .face {
-                width: 100%;
-                height: 100%;
-                position: absolute;
-                -webkit-backface-visibility: hidden;
-                backface-visibility: hidden;
-                z-index: 2;
-                font-family: Arial;
-                font-size: 4em;
-                font-weight: bold;
-                text-align: center;
-                line-height: 230px;
-            }
-            .flip .card2 .front {
-                position: absolute;
-                z-index: 1;
-                background-image: url('images/cardback.png');
-                background-size: 100% 100%;
-                border: 1px solid white;
-            }
-            .flip .card2 .back {
-                -webkit-transform: rotatey(-180deg);
-                transform: rotatey(-180deg);
-                border: 1px solid darkgray;
-                border-radius: 6px;
-                background-color: white;
-            }
+                .flip .card2 {
+                    width: 100%;
+                    height: 100%;
+                    transform-style: preserve-3d;
+                    transition: 0.5s;
+                }
+                    .flip .card2.flipped {
+                        transform: rotatey(-180deg);
+                    }
+                    .flip .card2.unknown {
+                        opacity: 0.2;
+                    }
+                    .flip .card2 .face {
+                        width: 100%;
+                        height: 100%;
+                        z-index: 2;
+                        font-family: Arial;
+                        font-size: 4em;
+                        font-weight: bold;
+                        text-align: center;
+                        line-height: 230px;
+
+                        position: absolute;
+                        backface-visibility: hidden;
+                    }
+                    .flip .card2 .front {
+                        background-image: url('images/cardback.png');
+                        background-size: 100% 100%;
+                        border: 1px solid white;
+                    }
+
+                    .flip .card2 .back {
+                        transform: rotatey(180deg);
+                        border: 1px solid darkgray;
+                        border-radius: 6px;
+                        background-color: white;
+                    }
 
 
             .qrcode {
-                zposition: fixed;
-                zright: 0px;
-                zbottom: 0px;
                 text-align: center;
                 float: right;
                 margin: 5px;
@@ -124,6 +114,32 @@
             }
         </style>
 
+
+        <style>
+            /* ie only */
+            html[data-useragent*='Trident'] .flip .card2 .face {
+                /* chrome only */
+                position: inherit;
+                backface-visibility: visible;
+            }
+
+            html[data-useragent*='Trident'] .flip .card2.flipped .front {
+                /* ie only */
+                display: none;
+            }
+
+            html[data-useragent*='Trident'] .flip .card2 .back {
+                /* ie only */
+                display: none;
+            }
+
+            html[data-useragent*='Trident'] .flip .card2.flipped .back {
+                /* ie only */
+                display: inherit;
+            }
+        </style>
+
+
     </head>
     <body class="ng-cloak">
 
@@ -142,7 +158,7 @@
             <h1 style="text-align: center">Empty Session</h1>
         </div>
 
-        <div style="width: {{model.users.length * 200}}px; margin: auto">
+        <div style="margin: auto" ng-style="getCardContainerStyle()">
 
             <div ng-repeat="user in model.users" class="card-container flip">
                 <div class="card-name" ng-class="{'disconnected': !user.connected}">{{user.username}} <a href="#" ng-click="kick(user)"><img src="images/close.gif" border="0" /></a></div>
@@ -177,6 +193,11 @@
         <script src="/socket.io/socket.io.js"></script>
         <script src="dist/js/vendor.min.js"></script>
         <script src="dist/js/app.min.js"></script>
+
+        <script language="javascript">
+            var doc = document.documentElement;
+            doc.setAttribute('data-useragent', navigator.userAgent);
+        </script>
 
     </body>
 </html>
