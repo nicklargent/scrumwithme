@@ -42,6 +42,7 @@ var sessionStats = {
 };
 var sessions = {};
 
+
 io.sockets.on('connection', function (socket) {
 
     console.log(" ================================================");
@@ -61,6 +62,7 @@ io.sockets.on('connection', function (socket) {
                 sid: data.sid,
                 activity: new Date(),
                 users: {},
+                roomType: 'planning_poker',  // planning_poker, tshirt_sizing, value_pointing, multiple_choice
                 hostSocket: null
             };
         }
@@ -107,6 +109,8 @@ io.sockets.on('connection', function (socket) {
         u.socket = socket;
 
         socket.emit('loggedIn');
+        socket.emit('roomUpdate', {roomType: session.roomType});
+
         sendDumpToHost(data.sid);
     });
 
@@ -126,10 +130,7 @@ io.sockets.on('connection', function (socket) {
         sendDumpToHost(socket.sid);
     });
 
-    socket.on("reset", function() {
-        console.log(" ================================================");
-        console.log("reset: " + socket.sid);
-
+    var reset = function() {
         if (sessions[socket.sid]) {
             for (var uid in sessions[socket.sid].users) {
                 sessions[socket.sid].users[uid].orgVote = null;
@@ -139,6 +140,12 @@ io.sockets.on('connection', function (socket) {
             io.sockets.in(socket.sid).emit('reset');
             sendDumpToHost(socket.sid);
         }
+    };
+
+    socket.on("reset", function() {
+        console.log(" ================================================");
+        console.log("reset: " + socket.sid);
+        reset();
     });
 
     socket.on("vote", function(value) {
@@ -175,6 +182,19 @@ io.sockets.on('connection', function (socket) {
         }
     });
 
+    socket.on("setRoomType", function(roomType) {
+        console.log(" ================================================");
+        console.log("setRoomType: " + roomType);
+
+        if (sessions[socket.sid]) {
+            sessions[socket.sid].roomType = roomType;
+
+            io.sockets.in(socket.sid).emit('roomUpdate', {roomType: sessions[socket.sid].roomType});
+            reset();
+            sendDumpToHost(socket.sid);
+        }
+    });
+
     var sendDumpToHost = function(sid) {
         var s = sessions[sid];
         if (s && s.hostSocket != null) {
@@ -182,6 +202,7 @@ io.sockets.on('connection', function (socket) {
 
             var dump = {
                 sid: s.sid,
+                roomType: s.roomType,
                 users: []
             }
 
