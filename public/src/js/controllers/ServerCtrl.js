@@ -42,7 +42,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
 
     $scope.setRoomType = function(roomType) {
         socket.emit("setRoomType", roomType);
-    }
+    };
 
     $scope.showConnectCode = function() {
         model.showConnectCode = !model.showConnectCode;
@@ -77,7 +77,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
                 if (ct > maxCount) {
                     maxCount = ct;
                     maxValue = list[i];
-                    tieCount = 0
+                    tieCount = 0;
                 }
                 else if (ct == maxCount) {
                     tieCount++;
