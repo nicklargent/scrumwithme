@@ -100,6 +100,13 @@
 
             .tools a {
                 color: #222222;
+                padding: 2px 8px;
+                text-decoration: none;
+            }
+
+            .tools a.selectedMode {
+                background: rgba(255, 255, 255, .7);
+                border-radius: 8px;
             }
 
             .sessionid {
@@ -166,17 +173,24 @@
                     <div class="face front">
                     </div>
                     <div class="face back">
-                        <span ng-show="user.vote >= 0 && user.vote == user.orgVote">{{user.vote}}</span>
-                        <span ng-show="user.vote >= 0 && user.vote != user.orgVote"><span style="position: absolute; color: lightgray; font-weight: normal; text-decoration: line-through; font-size: .5em; top: -90px; left: 10px;">{{user.orgVote}}</span>{{user.vote}}</span>
+                        <span ng-show="user.vote !== null && user.vote === user.orgVote">{{user.vote}}</span>
+                        <span ng-show="user.vote !== null && user.vote !== user.orgVote"><span style="position: absolute; color: lightgray; font-weight: normal; text-decoration: line-through; font-size: .5em; top: -90px; left: 10px;">{{user.orgVote}}</span>{{user.vote}}</span>
                     </div>
                 </div>
             </div>
 
         </div>
 
+        <div style="clear: both; text-align: center; padding-top: 80px; color: rgba(0, 0, 0, .2); font-family: sans-serif; font-size: 2em; font-weight: bold;" ng-show="model.allIn" ng-bind="model.winningText">
+        </div>
+
         <div class="footer">
             <div class="tools">
                 <a href="#" ng-click="newSession()">New Session</a>
+                <a href="#" ng-click="setRoomType('planning_poker')" ng-class="{selectedMode: model.roomType === 'planning_poker'}">Planning Poker</a>
+                <a href="#" ng-click="setRoomType('tshirt_sizing')" ng-class="{selectedMode: model.roomType === 'tshirt_sizing'}">T-Shirt Sizing</a>
+                <a href="#" ng-click="setRoomType('value_pointing')" ng-class="{selectedMode: model.roomType === 'value_pointing'}">Value Pointing</a>
+                <a href="#" ng-click="setRoomType('multiple_choice')" ng-class="{selectedMode: model.roomType === 'multiple_choice'}">Multiple Choice</a>
             </div>
 
             <div class="qrcode">

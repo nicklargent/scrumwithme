@@ -27,12 +27,13 @@ angular.module('ScrumWithMe').controller('ClientCtrl', ['$scope', '$location', '
         newUsername: '',
         connected: false,
         loggedIn: false,
+        roomType: 'unknown',
         transport: 'unknown',
         username: $cookieStore.get('username') || '',
         isLoggedIn: function() {
             return this.username && this.username.length > 0;
         },
-        vote: -1
+        vote: null
     };
     $scope.model = model;
 
@@ -83,8 +84,12 @@ angular.module('ScrumWithMe').controller('ClientCtrl', ['$scope', '$location', '
         model.loggedIn = true;
     });
 
+    socket.on('roomUpdate', function(room) {
+        model.roomType = room.roomType;
+    });
+
     socket.on('reset', function(mode) {
-        model.vote = -1;
+        model.vote = null;
     });
 
     $scope.reset = function() {

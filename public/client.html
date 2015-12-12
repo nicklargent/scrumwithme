@@ -49,9 +49,37 @@
              box-shadow: 0 1px 10px #7F7;
             }
 
-            .point-button {
+            .planning_poker-button {
                 width: 80px;
                 height: 90px;
+                margin: 8px;
+                padding: 0;
+                font-size: 2em;
+            }
+
+            .tshirt_sizing-button {
+                width: 120px;
+                height: 90px;
+                margin: 8px;
+                padding: 0;
+                font-size: 1.8em;
+            }
+
+            .value_pointing-button {
+                width: 80px;
+                height: 90px;
+                margin: 8px;
+                padding: 0;
+                font-size: 2em;
+            }
+
+            .value_pointing_zero {
+                width: 250px;
+            }
+
+            .multiple_choice-button {
+                width: 120px;
+                height: 130px;
                 margin: 8px;
                 padding: 0;
                 font-size: 2em;
@@ -103,9 +131,31 @@
 
         <div ng-show="model.isLoggedIn()">
 
-            <span ng-repeat="value in [1,2,3,5,8,13,20,40,100]">
-                <button class="point-button" ng-click="vote(value)" ng-class="{selected: model.vote == value}">{{value}}</button>
-            </span>
+            <div ng-switch="model.roomType">
+                <div ng-switch-when="planning_poker">
+                    <span ng-repeat="value in [1,2,3,5,8,13,20,40,100]">
+                        <button class="planning_poker-button" ng-click="vote(value)" ng-class="{selected: model.vote == value}">{{value}}</button>
+                    </span>
+                </div>
+                <div ng-switch-when="tshirt_sizing">
+                    <span ng-repeat="value in ['XS', 'S', 'M', 'L', 'XL', 'XXL']">
+                        <button class="tshirt_sizing-button" ng-click="vote(value)" ng-class="{selected: model.vote == value}">{{value}}</button>
+                    </span>
+                </div>
+                <div ng-switch-when="value_pointing">
+                    <span ng-repeat="value in ['-5', '-3', '-1', '0', '+1', '+3', '+5']">
+                        <button class="value_pointing-button" ng-click="vote(value)" ng-class="{selected: model.vote == value, value_pointing_zero: value == '0'}">{{value}}</button>
+                    </span>
+                </div>
+                <div ng-switch-when="multiple_choice">
+                    <span ng-repeat="value in ['A', 'B', 'C', 'D']">
+                        <button class="multiple_choice-button" ng-click="vote(value)" ng-class="{selected: model.vote == value}">{{value}}</button>
+                    </span>
+                </div>
+                <div ng-switch-default>
+                    waiting for room info
+                </div>
+            </div>
 
             <div style="background-color: lightgrey; position: fixed; bottom: 0; height: 50px; width: 100%;">
                 <button ng-click='reset()' style="margin: 10px; height: 30px; float: left;">Reset All</button>
