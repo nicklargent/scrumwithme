@@ -65,6 +65,14 @@
                 font-size: 1.8em;
             }
 
+            .relative_sizing-button {
+                width: 200px;
+                height: 90px;
+                margin: 8px;
+                padding: 0;
+                font-size: 1.8em;
+            }
+
             .value_pointing-button {
                 width: 80px;
                 height: 90px;
@@ -140,6 +148,11 @@
                 <div ng-switch-when="tshirt_sizing">
                     <span ng-repeat="value in ['XS', 'S', 'M', 'L', 'XL', 'XXL']">
                         <button class="tshirt_sizing-button" ng-click="vote(value)" ng-class="{selected: model.vote == value}">{{value}}</button>
+                    </span>
+                </div>
+                <div ng-switch-when="relative_sizing">
+                    <span ng-repeat="value in ['Very Small', 'Small', 'Medium', 'Big', 'Very Big', 'Huge']">
+                        <button class="relative_sizing-button" ng-click="vote(value)" ng-class="{selected: model.vote == value}">{{value}}</button>
                     </span>
                 </div>
                 <div ng-switch-when="value_pointing">

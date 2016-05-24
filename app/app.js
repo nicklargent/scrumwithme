@@ -62,7 +62,7 @@ io.sockets.on('connection', function (socket) {
                 sid: data.sid,
                 activity: new Date(),
                 users: {},
-                roomType: 'planning_poker',  // planning_poker, tshirt_sizing, value_pointing, multiple_choice
+                roomType: 'planning_poker',  // planning_poker, tshirt_sizing, relative_sizing, value_pointing, multiple_choice
                 hostSocket: null
             };
         }
