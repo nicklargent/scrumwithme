@@ -59,11 +59,11 @@
                         height: 100%;
                         z-index: 2;
                         font-family: Arial;
-                        font-size: 4em;
+                        font-size: 3.7em;
                         font-weight: bold;
                         text-align: center;
                         zline-height: 230px;
-                        border: 1px solid red;
+                        border: 1px solid darkgray;
 
                         display:flex;
                         flex-flow: row wrap;
@@ -87,6 +87,15 @@
                         background-color: white;
                     }
 
+                    .orig_vote {
+                        position: absolute;
+                        color: lightgray;
+                        font-weight: normal;
+                        text-decoration: line-through;
+                        font-size: .5em;
+                        top: 4px;
+                        left: 4px;
+                    }
 
             .qrcode {
                 text-align: center;
@@ -186,7 +195,7 @@
                     </div>
                     <div class="face back">
                         <span ng-show="user.vote !== null && user.vote === user.orgVote" class="cardType_{{model.roomType}}">{{user.vote}}</span>
-                        <span ng-show="user.vote !== null && user.vote !== user.orgVote" class="cardType_{{model.roomType}}"><span style="position: absolute; color: lightgray; font-weight: normal; text-decoration: line-through; font-size: .5em; top: -90px; left: 10px;">{{user.orgVote}}</span>{{user.vote}}</span>
+                        <span ng-show="user.vote !== null && user.vote !== user.orgVote" class="cardType_{{model.roomType}}"><span class="orig_vote">{{user.orgVote}}</span>{{user.vote}}</span>
                     </div>
                 </div>
             </div>
