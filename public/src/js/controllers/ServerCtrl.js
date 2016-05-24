@@ -99,6 +99,8 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
                     break;
                 case "tshirt_sizing":
                     break;
+                case "relative_sizing":
+                    break;
                 case "value_pointing":
                     var list = model.users.map(function (u) {
                         return parseInt(u.vote);

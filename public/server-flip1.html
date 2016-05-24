@@ -62,7 +62,14 @@
                         font-size: 4em;
                         font-weight: bold;
                         text-align: center;
-                        line-height: 230px;
+                        zline-height: 230px;
+                        border: 1px solid red;
+
+                        display:flex;
+                        flex-flow: row wrap;
+                        justify-content: center;
+                        align-items: center;
+                        align-content: center;
 
                         position: absolute;
                         backface-visibility: hidden;
@@ -75,7 +82,7 @@
 
                     .flip .card2 .back {
                         transform: rotatey(180deg);
-                        border: 1px solid darkgray;
+                        zborder: 1px solid darkgray;
                         border-radius: 6px;
                         background-color: white;
                     }
@@ -118,6 +125,11 @@
 
             .ng-cloak {
                 display: none;
+            }
+
+
+            .cardType_relative_sizing {
+                font-size: 70%;
             }
         </style>
 
@@ -173,8 +185,8 @@
                     <div class="face front">
                     </div>
                     <div class="face back">
-                        <span ng-show="user.vote !== null && user.vote === user.orgVote">{{user.vote}}</span>
-                        <span ng-show="user.vote !== null && user.vote !== user.orgVote"><span style="position: absolute; color: lightgray; font-weight: normal; text-decoration: line-through; font-size: .5em; top: -90px; left: 10px;">{{user.orgVote}}</span>{{user.vote}}</span>
+                        <span ng-show="user.vote !== null && user.vote === user.orgVote" class="cardType_{{model.roomType}}">{{user.vote}}</span>
+                        <span ng-show="user.vote !== null && user.vote !== user.orgVote" class="cardType_{{model.roomType}}"><span style="position: absolute; color: lightgray; font-weight: normal; text-decoration: line-through; font-size: .5em; top: -90px; left: 10px;">{{user.orgVote}}</span>{{user.vote}}</span>
                     </div>
                 </div>
             </div>
@@ -189,6 +201,7 @@
                 <a href="#" ng-click="newSession()">New Session</a>
                 <a href="#" ng-click="setRoomType('planning_poker')" ng-class="{selectedMode: model.roomType === 'planning_poker'}">Planning Poker</a>
                 <a href="#" ng-click="setRoomType('tshirt_sizing')" ng-class="{selectedMode: model.roomType === 'tshirt_sizing'}">T-Shirt Sizing</a>
+                <a href="#" ng-click="setRoomType('relative_sizing')" ng-class="{selectedMode: model.roomType === 'relative_sizing'}">Relative Sizing</a>
                 <a href="#" ng-click="setRoomType('value_pointing')" ng-class="{selectedMode: model.roomType === 'value_pointing'}">Value Pointing</a>
                 <a href="#" ng-click="setRoomType('multiple_choice')" ng-class="{selectedMode: model.roomType === 'multiple_choice'}">Multiple Choice</a>
             </div>
