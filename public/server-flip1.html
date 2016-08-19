@@ -114,6 +114,26 @@
                 margin: 10px;
             }
 
+            .tools-section {
+                zborder-left: 1px solid rgba(0, 0, 0, .4);
+                border-top: 1px solid rgba(0, 0, 0, .4);
+                margin: 0 15px;
+                padding: 8px;
+                display: inline;
+            }
+
+            .tools-section h1 {
+                color: rgba(0, 0, 0, .4);
+                position: absolute;
+                display: inline;
+                margin: 0;
+                margin-left: -8px;
+                bottom: 26px;
+                padding: 0;
+                font-size: 8pt;
+                font-weight: normal;
+            }
+
             .tools a {
                 color: #222222;
                 padding: 2px 8px;
@@ -140,6 +160,36 @@
             .cardType_relative_sizing {
                 font-size: 70%;
             }
+
+
+            .bigroom-users-container {
+                white-space: normal;
+                margin: 0 auto 0 auto;
+                padding: 0 50px;
+                text-align: center;
+            }
+
+            .bigroom-users-container h1 {
+                margin: 10px;
+                font-size: 20pt;
+                color: rgba(0, 0, 0, .2); font-family: sans-serif; font-size: 2em; font-weight: bold;
+            }
+
+            .bigroom-user {
+                margin: 1px 2px;
+                width: 170px;
+                overflow: hidden;
+                white-space: nowrap;
+                float: left;
+                zborder: 1px solid blue;
+                color: rgba(0, 0, 0, .4);
+            }
+
+            .bigroom-user-voted {
+                color: black;
+                font-weight: bold;
+            }
+
         </style>
 
 
@@ -167,7 +217,6 @@
             }
         </style>
 
-
     </head>
     <body class="ng-cloak">
 
@@ -186,7 +235,7 @@
             <h1 style="text-align: center">Empty Session</h1>
         </div>
 
-        <div style="margin: auto" ng-style="getCardContainerStyle()">
+        <div ng-show="!isBigRoom()" style="margin: auto" ng-style="getCardContainerStyle()">
 
             <div ng-repeat="user in model.users" class="card-container flip">
                 <div class="card-name" ng-class="{'disconnected': !user.connected}">{{user.username}} <a href="#" ng-click="kick(user)"><img src="images/close.gif" border="0" /></a></div>
@@ -202,17 +251,44 @@
 
         </div>
 
+        <div ng-show="isBigRoom()" class="bigroom-users-container">
+            <h1>Participants: {{model.votedUserCount}} / {{model.users.length}}</h1>
+            <div ng-repeat="user in model.users" class="bigroom-user" ng-class="{'bigroom-user-voted': user.vote !== null, 'disconnected': !user.connected}"> <a href="#" ng-click="kick(user)"><img src="images/close.gif" border="0" /></a> {{user.username}}</div>
+            <div style="padding-top: 20px; clear: both;">
+                <h1>Results</h1>
+                <table align="center" cellpadding="5">
+                    <tr ng-repeat="result in model.voteStatistics">
+                        <td style="white-space: nowrap;"><b>{{result.vote}}</b></td>
+                        <td>{{result.count}}&nbsp;votes</td>
+                        <td>{{result.percent}}%</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
         <div style="clear: both; text-align: center; padding-top: 80px; color: rgba(0, 0, 0, .2); font-family: sans-serif; font-size: 2em; font-weight: bold;" ng-show="model.allIn" ng-bind="model.winningText">
         </div>
 
         <div class="footer">
             <div class="tools">
                 <a href="#" ng-click="newSession()">New Session</a>
-                <a href="#" ng-click="setRoomType('planning_poker')" ng-class="{selectedMode: model.roomType === 'planning_poker'}">Planning Poker</a>
-                <a href="#" ng-click="setRoomType('tshirt_sizing')" ng-class="{selectedMode: model.roomType === 'tshirt_sizing'}">T-Shirt Sizing</a>
-                <a href="#" ng-click="setRoomType('relative_sizing')" ng-class="{selectedMode: model.roomType === 'relative_sizing'}">Relative Sizing</a>
-                <a href="#" ng-click="setRoomType('value_pointing')" ng-class="{selectedMode: model.roomType === 'value_pointing'}">Value Pointing</a>
-                <a href="#" ng-click="setRoomType('multiple_choice')" ng-class="{selectedMode: model.roomType === 'multiple_choice'}">Multiple Choice</a>
+
+                <div class="tools-section">
+                    <h1>Voting Style</h1>
+                    <a href="#" ng-click="setRoomType('planning_poker')" ng-class="{selectedMode: model.roomType === 'planning_poker'}">Planning Poker</a>
+                    <a href="#" ng-click="setRoomType('tshirt_sizing')" ng-class="{selectedMode: model.roomType === 'tshirt_sizing'}">T-Shirt Sizing</a>
+                    <a href="#" ng-click="setRoomType('relative_sizing')" ng-class="{selectedMode: model.roomType === 'relative_sizing'}">Relative Sizing</a>
+                    <a href="#" ng-click="setRoomType('value_pointing')" ng-class="{selectedMode: model.roomType === 'value_pointing'}">Value Pointing</a>
+                    <a href="#" ng-click="setRoomType('multiple_choice')" ng-class="{selectedMode: model.roomType === 'multiple_choice'}">Multiple Choice</a>
+                </div>
+
+                <div class="tools-section">
+                    <h1>Big Room Mode</h1>
+                    <a href="#" ng-click="model.bigRoomMode = 'auto'" ng-class="{selectedMode: model.bigRoomMode === 'auto'}">Auto</a>
+                    <a href="#" ng-click="model.bigRoomMode = 'off'" ng-class="{selectedMode: model.bigRoomMode === 'off'}">Off</a>
+                    <a href="#" ng-click="model.bigRoomMode = 'on'" ng-class="{selectedMode: model.bigRoomMode === 'on'}">On</a>
+                </div>
+
             </div>
 
             <div class="qrcode">
