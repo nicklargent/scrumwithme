@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "express": "4.3.1",
-    "socket.io": "0.9.17",
+    "socket.io": "1.*",
     "express-http-proxy": "*"
   },
   "devDependencies": {
@@ -23,6 +23,7 @@
     "grunt-contrib-clean": "~0.6.0",
     "grunt-contrib-copy": "~0.8.0",
     "grunt-contrib-compress": "~0.13.0",
-    "grunt-text-replace": "~0.4.0"
+    "grunt-text-replace": "~0.4.0",
+    "socket.io-client": "^1.4.8"
   }
 }
