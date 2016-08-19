@@ -25,10 +25,13 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
         showConnectCode: true,
         roomType: "unknown",
         winningText: "",
+        voteStatistics: [],
         qrcodeUrl: '/qrcode?size=100&url=' + encodeURIComponent(tools.buildJoinUrl(sid)),
         qrcodeUrlBig: '/qrcode?size=500&url=' + encodeURIComponent(tools.buildJoinUrl(sid)),
         users: [],
-        allIn: false
+        votedUserCount: 0,
+        allIn: false,
+        bigRoomMode: 'auto'
     };
     $scope.model = model;
 
@@ -46,6 +49,18 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
 
     $scope.showConnectCode = function() {
         model.showConnectCode = !model.showConnectCode;
+    };
+
+    $scope.isBigRoom = function() {
+
+        switch (model.bigRoomMode) {
+            case 'auto':
+                return model.users.length > 10;
+            case 'off':
+                return false;
+            case 'on':
+                return true;
+        }
     };
 
     $scope.getCardContainerStyle = function() {
@@ -108,7 +123,7 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
                     var mean = calc_mean(list);
                     return "Average: " + Math.round(mean * 10.0) / 10.0;
                 case "multiple_choice":
-                    /*var list = model.users.map(function (u) {
+                    /*list = model.users.map(function (u) {
                         return u.vote;
                     });
                     var mode = calc_mode(list);
@@ -117,6 +132,28 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
             }
         }
         return "";
+    };
+
+    var getVoteStatistics = function() {
+        var counts = {};
+
+        for (var i in model.users) {
+            var vote = model.users[i].vote;
+            if (vote !== null) {
+                counts[vote] = counts[vote] ? counts[vote]+1 : 1;
+            }
+        }
+
+        var countList = [];
+        for (var j in counts) {
+            countList.push({vote: j, count: counts[j], percent: Math.round(counts[j] * 100 / model.users.length)});
+        }
+
+        countList.sort(function(a, b) {
+            return b.count - a.count;
+        });
+
+        return countList;
     };
 
     socket.on('connect', function(){
@@ -163,18 +200,21 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
         }
 
         model.users.sort(function(a, b) {
-            return a.username > b.username;
+            if(a.username < b.username) return -1;
+            if(a.username > b.username) return 1;
+            return 0;
         });
 
         model.allIn = !model.users.some(function(u) { return u.vote === null; });
+        model.votedUserCount = model.users.reduce(function(total, x) {return x.vote === null ? total : total + 1;}, 0);
         model.winningText = getWinningText();
+        model.voteStatistics = getVoteStatistics();
 
         if (model.users.length === 0)
             model.showConnectCode = true;
 
         if (model.users.some(function(u) { return u.vote !== null; }))
             model.showConnectCode = false;
-
     });
 
 }]);
