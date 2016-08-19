@@ -64,7 +64,7 @@ angular.module('ScrumWithMe').controller('ClientCtrl', ['$scope', '$location', '
 
     socket.on('connect', function(){
         model.connected = true;
-        model.transport = socket.transport();
+        //model.transport = s.transport();
         doJoin();
     });
 
