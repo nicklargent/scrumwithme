@@ -13,7 +13,16 @@ module.exports = (grunt) ->
                     "public/vendor/angular/angular.min.js"
                     "public/vendor/angular/angular-cookies.min.js"
                 ]
-                src: ["public/src/js/**/*.js"]
+
+                src: [
+                    "public/src/js/ScrumWithMe.js"
+                    "public/src/js/controllers/IndexCtrl.js"
+                    "public/src/js/controllers/ClientCtrl.js"
+                    "public/src/js/controllers/ServerCtrl.js"
+                    "public/src/js/controllers/TestCtrl.js"
+                    "public/src/js/services/socket.js"
+                    "public/src/js/services/tools.js"
+                ] 
 
             css:
                 src: ["public/src/css/**/*.css"]
@@ -38,6 +47,7 @@ module.exports = (grunt) ->
             app_js:
                 dest: 'public/dist/js/app.min.js'
                 src: ["<%=files.js.src%>"]
+
             vendor_js:
                 dest: 'public/dist/js/vendor.min.js'
                 src: ["<%=files.js.vendor%>"]

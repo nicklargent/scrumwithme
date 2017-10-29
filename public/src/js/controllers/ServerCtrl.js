@@ -128,7 +128,9 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
                     });
                     var mode = calc_mode(list);
                     return "Winner: " + mode;*/
-                    break;
+					break;
+				case "fist_of_five":
+					break;
             }
         }
         return "";

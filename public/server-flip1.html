@@ -226,9 +226,10 @@
         </div>
 
         <div ng-show="model.showConnectCode" style="position: absolute; zbottom: 55px; width: 100%; top: 150px; z-index: 99;">
-            <div style="border: 1px solid black; background: white; padding: 20px; text-algin: center; margin-left: auto; margin-right: auto; width: 600px;">
-                <img ng-src="{{model.qrcodeUrlBig}}" width="600" ng-click="showConnectCode()">
-            </div>
+            <figure style="border: 1px solid black; background: white; padding: 20px 20px 0; text-align: center; margin-left: auto; margin-right: auto; width: 600px;">
+				<img ng-src="{{model.qrcodeUrlBig}}" width="600" ng-click="showConnectCode()">
+				<figcaption style="border-top: 1px solid black; text-align: center; font-size: 5em; margin: 20px -20px 0; font-weight: bold; font-family: sans-serif; line-height: 1;">{{model.sid}}</figcaption>
+            </figure>
         </div>
 
         <div ng-show="model.users.length == 0">
@@ -280,6 +281,7 @@
                     <a href="#" ng-click="setRoomType('relative_sizing')" ng-class="{selectedMode: model.roomType === 'relative_sizing'}">Relative Sizing</a>
                     <a href="#" ng-click="setRoomType('value_pointing')" ng-class="{selectedMode: model.roomType === 'value_pointing'}">Value Pointing</a>
                     <a href="#" ng-click="setRoomType('multiple_choice')" ng-class="{selectedMode: model.roomType === 'multiple_choice'}">Multiple Choice</a>
+                    <a href="#" ng-click="setRoomType('fist_of_five')" ng-class="{selectedMode: model.roomType === 'fist_of_five'}">Fist of Five</a>
                 </div>
 
                 <div class="tools-section">
