@@ -21,7 +21,8 @@ angular.module('ScrumWithMe').controller('ClientCtrl', ['$scope', '$location', '
     var model = {
         uid: getUser(),
         sid: sid,
-        qrcodeUrl: '/qrcode?size=100&url=' + encodeURIComponent(tools.buildJoinUrl(sid)),
+        qrcodeUrl: '/qrcode?size=1&url=' + encodeURIComponent(tools.buildJoinUrl(sid)),
+        qrcodeUrlBig: '/qrcode?size=10&url=' + encodeURIComponent(tools.buildJoinUrl(sid)),
         showSettings: false,
         showConnectCode: false,
         newUsername: '',

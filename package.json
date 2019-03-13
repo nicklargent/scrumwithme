@@ -7,23 +7,23 @@
   },
   "dependencies": {
     "express": "4.3.1",
-    "socket.io": "1.*",
-    "express-http-proxy": "*"
+    "qr-image": "^3.2.0",
+    "socket.io": "1.*"
   },
   "devDependencies": {
-    "grunt": "*",
-    "grunt-contrib-jshint": "*",
-    "grunt-contrib-concat": "*",
-    "grunt-contrib-uglify": "*",
-    "grunt-contrib-watch": "*",
-    "grunt-open": "~0.2.3",
-    "matchdep": "~0.3.0",
-    "grunt-nodemon": "~0.3.0",
+    "grunt": "^1.0.3",
     "grunt-concurrent": "~0.5.0",
     "grunt-contrib-clean": "~0.6.0",
-    "grunt-contrib-copy": "~0.8.0",
     "grunt-contrib-compress": "~0.13.0",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-copy": "~0.8.0",
+    "grunt-contrib-jshint": "^2.0.0",
+    "grunt-contrib-uglify": "^4.0.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-nodemon": "~0.3.0",
+    "grunt-open": "~0.2.3",
     "grunt-text-replace": "~0.4.0",
+    "matchdep": "~0.3.0",
     "socket.io-client": "^1.4.8"
   }
 }
