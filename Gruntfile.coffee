@@ -120,7 +120,7 @@ module.exports = (grunt) ->
 
     # create workflow
     grunt.registerTask 'default', ['concat', 'replace', 'open', 'concurrent']
-    grunt.registerTask 'build', ['clean', 'jshint', 'concat', 'uglify', 'replace', 'copy:build', 'compress:build']
+    grunt.registerTask 'build', ['clean', 'jshint', 'concat', 'uglify', 'replace', 'copy:build']
 
 
 
