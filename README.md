@@ -1,6 +1,6 @@
 # scrumwith.me
 
-No hassle planning poker at http://scrumwith.me.
+No hassle planning poker at https://scrumwith.me.
 
 Just the right set of features for quick ad-hoc estimation sessions.
 
@@ -14,7 +14,9 @@ Just the right set of features for quick ad-hoc estimation sessions.
 
 Requires node.js and npm.
 
-	git clone https://github.com/nicklargent/scrumwithme.git 
-	cd ./scrumwithme
-	npm install
-	grunt
+```bash
+git clone https://github.com/nicklargent/scrumwithme.git 
+cd ./scrumwithme
+npm install
+grunt
+```
