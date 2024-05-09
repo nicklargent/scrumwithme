@@ -1,12 +1,16 @@
 var express = require('express'),
     app = express(),
     server = require('http').createServer(app),
-    io = require('socket.io').listen(server, { log: false }),
     path = require('path'),
     qr = require('qr-image')
     ;
 
-server.listen(process.env.PORT || 4000);
+const {Server} = require("socket.io");
+const io = new Server(server, {});
+
+const PORT = process.env.PORT || 4000;
+console.log("Listening on port " + PORT);
+server.listen(PORT);
 
 app.use(express.static(path.resolve(path.join(__dirname, '/../public'))));
 app.get('/', function (req, res) { res.sendFile(path.resolve(__dirname + '/../public/index.html')); });
@@ -22,7 +26,6 @@ app.get('/systeminfo', function (req, res) {
 });
 
 app.use('/qrcode', function (req, res) {
-    console.log(req.query.size);
     if (req.query.size > 50)
         return res.end("Error");
     var code = qr.image(req.query.url, {type: 'png', ec_level: 'L', size: parseInt(req.query.size), margin: 1});
@@ -41,22 +44,34 @@ var sessionStats = {
 };
 var sessions = {};
 
+function log(socket, msg) {
+    if (socket) {
+        if (socket.sid) {
+            if (socket.username) {
+                console.log(`Session ${socket.sid}: <${socket.username}> ${msg}`);
+            } else {
+                console.log(`Session ${socket.sid}: ${msg}`);
+            }
+        } else {
+            console.log(`** SOCKET ${socket.id}: ${msg}`);
+        }
+    } else {
+        console.log(msg);
+    }
+}
 
 io.sockets.on('connection', function (socket) {
-
-    console.log(" ================================================");
-    console.log("connection: " + socket.id);
-
+    log(socket, 'connected');
 
     socket.on('bindHost', function (data) {
-        console.log(" ================================================");
-        console.log("bindHost: " + data.sid);
+        log(socket, `bindHost to session ${data.sid}`);
         socket.sid = data.sid;
         socket.uid = "HOST";
+        socket.username = "HOST";
         socket.join(data.sid);
 
         if (!(data.sid in sessions)) {
-            console.log("creating new session: " + data.sid);
+            log(socket, "starting new session");
             sessions[data.sid] = {
                 sid: data.sid,
                 activity: new Date(),
@@ -66,30 +81,30 @@ io.sockets.on('connection', function (socket) {
             };
         }
         else {
-            console.log("resuming old session: " + data.sid);
+            log(socket, "resuming old session");
         }
-
         sessions[data.sid].hostSocket = socket;
+
         sendDumpToHost(data.sid);
     });
 
     socket.on('bindUser', function(data) {
-        console.log(" ================================================");
-        console.log("bindUser: " + data.username + " to session: " + data.sid);
-        socket.sid = data.sid;
-        socket.uid = data.uid;
-        socket.join(data.sid);
-
+        log(socket, `bindUser ${data.username} to session ${data.sid} with uid ${data.uid}`);
         if (!sessions[data.sid]) {
-            console.log("Invalid sessionId")
+            log(socket, `Invalid sessionId ${data.sid}`);
             socket.emit('failure', 'Invalid Session')
             return;
         }
 
+        socket.sid = data.sid;
+        socket.uid = data.uid;
+        socket.username = data.username;
+        socket.join(data.sid);
+
         var session = sessions[data.sid];
 
         if (!(data.uid in session.users)) {
-            console.log("creating new user: " + data.username);
+            log(socket, `new user joined`);
             session.users[data.uid] = {
                 uid: data.uid,
                 username: data.username,
@@ -99,13 +114,13 @@ io.sockets.on('connection', function (socket) {
             };
         }
         else {
-            console.log("resuming old user: " + data.username);
+            log(socket, `old user joined: ${data.uid} (${session.users[data.uid].username})`);
             session.users[data.uid].username = data.username;
         }
 
         var u = session.users[data.uid];
-        console.log(u);
-        u.socket = socket;
+        //console.log(" User:", u);
+        u.socket = socket;        
 
         socket.emit('loggedIn');
         socket.emit('roomUpdate', {roomType: session.roomType});
@@ -114,8 +129,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function() {
-        console.log(" ================================================");
-        console.log("disconnect: " + socket.uid);
+        log(socket, `disconnected`);
 
         if (sessions[socket.sid]) {
             if (sessions[socket.sid].users[socket.uid] && sessions[socket.sid].users[socket.uid].socket == socket) {
@@ -142,26 +156,23 @@ io.sockets.on('connection', function (socket) {
     };
 
     socket.on("reset", function() {
-        console.log(" ================================================");
-        console.log("reset: " + socket.sid);
+        log(socket, `reset`);
         reset();
     });
 
-    socket.on("vote", function(value) {
-        console.log(" ================================================");
-        console.log("vote: " + socket.uid);
-
+    socket.on("vote", function(value) {        
+        log(socket, `vote ${value}`);
         if (sessions[socket.sid] && sessions[socket.sid].users[socket.uid]) {
-            sessions[socket.sid].users[socket.uid].vote = value;
-            if (sessions[socket.sid].users[socket.uid].orgVote == null)
-                sessions[socket.sid].users[socket.uid].orgVote = value;
+            let user = sessions[socket.sid].users[socket.uid];
+            user.vote = value;
+            if (user.orgVote == null)
+                user.orgVote = value;
             sendDumpToHost(socket.sid);
         }
     });
 
     socket.on("leave", function() {
-        console.log(" ================================================");
-        console.log("leave: " + socket.uid);
+        log(socket, `leaves`);
 
         if (sessions[socket.sid] && sessions[socket.sid].users[socket.uid]) {
             delete sessions[socket.sid].users[socket.uid];
@@ -170,8 +181,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on("kick", function(uid) {
-        console.log(" ================================================");
-        console.log("kick: " + uid);
+        log(socket, `kick ${uid}`);
 
         if (sessions[socket.sid] && sessions[socket.sid].users[uid]) {
             if (sessions[socket.sid].users[uid].socket)
@@ -182,8 +192,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on("setRoomType", function(roomType) {
-        console.log(" ================================================");
-        console.log("setRoomType: " + roomType);
+        log(socket, `setRoomType ${roomType}`);
 
         if (sessions[socket.sid]) {
             sessions[socket.sid].roomType = roomType;
@@ -215,7 +224,7 @@ io.sockets.on('connection', function (socket) {
                 });
             }
 
-            console.log(dump);
+            //console.log("HOST Dump:", dump);
             s.hostSocket.emit('dump', dump);
         }
     }
@@ -246,8 +255,9 @@ var janitor = function() {
             sessionStats.oldestSession = s.activity;
         var hoursOld = (d - s.activity) / 3600000;
         if (hoursOld > 3) { // cleanup
-            console.log("Deleting inactive session " + sid);
-            var clients = io.sockets.clients(sid);
+            console.log("## Deleting inactive session " + sid);
+            //var clients = io.sockets.clients(sid);
+            var clients = io.sockets.adapter.rooms[sid];
             for (var i in clients) {
                 clients[i].disconnect();
             }

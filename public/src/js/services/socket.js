@@ -6,10 +6,10 @@ angular.module('ScrumWithMe').factory('socket', ['$rootScope', '$location', func
 
     return {
         transport: function() {
-            if (socket.socket.transport)
-                return socket.socket.transport.name;
+            if (socket.io.engine.transport)
+                return socket.io.engine.transport.name;
             else
-                return "unknown";
+                return "UNKNOWN";
         },
         on: function (eventName, callback) {
             socket.on(eventName, function () {

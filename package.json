@@ -6,24 +6,24 @@
     "start": "node app/app.js"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "qr-image": "^3.2.0",
-    "socket.io": "1.*"
+    "express": "^4.19",
+    "qr-image": "^3.2",
+    "socket.io": "^4.7"
   },
   "devDependencies": {
-    "grunt": "^1.0.4",
-    "grunt-concurrent": "~0.5.0",
-    "grunt-contrib-clean": "~0.6.0",
-    "grunt-contrib-compress": "~0.13.0",
-    "grunt-contrib-concat": "*",
-    "grunt-contrib-copy": "~0.8.0",
-    "grunt-contrib-jshint": "^2.1.0",
-    "grunt-contrib-uglify": "^4.0.1",
-    "grunt-contrib-watch": "^1.1.0",
-    "grunt-nodemon": "^0.4.2",
-    "grunt-open": "^0.2.4",
-    "grunt-text-replace": "~0.4.0",
-    "matchdep": "~0.3.0",
-    "socket.io-client": "^1.4.8"
+    "grunt": "^1.6",
+    "grunt-concurrent": "^3",
+    "grunt-contrib-clean": "^2",
+    "grunt-contrib-compress": "^2",
+    "grunt-contrib-concat": "^2",
+    "grunt-contrib-copy": "^1",
+    "grunt-contrib-jshint": "^3.2",
+    "grunt-contrib-uglify": "^5.2",
+    "grunt-contrib-watch": "^1",
+    "grunt-nodemon": "*",
+    "grunt-open": "*",
+    "grunt-text-replace": "*",
+    "matchdep": "^2",
+    "socket.io-client": "^4.7"
   }
 }
