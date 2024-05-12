@@ -1,0 +1,6 @@
+services:
+  app:
+    build: .
+    image: nicklargent/scrumwithme
+    ports:
+      - "4000:4000"
