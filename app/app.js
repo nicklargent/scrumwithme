@@ -20,7 +20,7 @@ app.get('/systeminfo', function (req, res) {
     res.json({
         upTimeHours: Math.round(((new Date()) - startTime) / 3600000),
         numberOfSessions: Object.keys(sessions).length,
-        numberOfSockets: io.sockets.clients().length,
+        numberOfSockets: io.sockets.sockets.size,
         sessionStats: sessionStats
     });
 });
