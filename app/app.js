@@ -83,6 +83,11 @@ io.sockets.on('connection', function (socket) {
         else {
             log(socket, "resuming old session");
         }
+
+        if (sessions[data.sid].hostSocket) {
+            log(socket, `<< kicking old host ${sessions[data.sid].hostSocket.id}`);
+            sessions[data.sid].hostSocket.emit('failure', 'You have been replaced by a new host');
+        }
         sessions[data.sid].hostSocket = socket;
 
         sendDumpToHost(data.sid);
@@ -225,7 +230,10 @@ io.sockets.on('connection', function (socket) {
             }
 
             //console.log("HOST Dump:", dump);
+            log(s.hostSocket, `<< dumping update to socket ${s.hostSocket.id}`);
             s.hostSocket.emit('dump', dump);
+        } else {
+            log(s, `No host for dump`);
         }
     }
 });

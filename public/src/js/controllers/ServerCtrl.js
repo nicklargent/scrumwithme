@@ -31,9 +31,13 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
         users: [],
         votedUserCount: 0,
         allIn: false,
-        bigRoomMode: 'auto'
+        bigRoomMode: 'auto',
+        transport: 'unknown',
     };
     $scope.model = model;
+    setInterval(() => {
+        $scope.$apply(() => {model.transport = socket.transport();});
+    }, 1000);
 
     $scope.reset = function() {
         socket.emit("reset");
@@ -160,6 +164,11 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
 
     socket.on('connect', function(){
         socket.emit('bindHost', {sid: model.sid});
+    });
+
+    socket.on('failure', function(reason) {
+        console.log(reason);
+        alert(reason);
     });
 
     socket.on('reset', function(mode) {
