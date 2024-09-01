@@ -35,8 +35,8 @@ angular.module('ScrumWithMe').controller('ServerCtrl', ['$scope', '$location', '
         transport: 'unknown',
     };
     $scope.model = model;
-    setInterval(() => {
-        $scope.$apply(() => {model.transport = socket.transport();});
+    setInterval(function(){
+        $scope.$apply(function() {model.transport = socket.transport();});
     }, 1000);
 
     $scope.reset = function() {
